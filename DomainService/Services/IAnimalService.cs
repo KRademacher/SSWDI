@@ -1,8 +1,8 @@
 ﻿using Core.DomainModel;
-using DomainService.Repositories;
+using DomainServices.Repositories;
 using System.Collections.Generic;
 
-namespace DomainService.Services
+namespace DomainServices.Services
 {
     public interface IAnimalService : IAnimalRepository
     {

@@ -1,6 +1,6 @@
 ﻿using Core.DomainModel;
-using DomainService.Repositories;
-using DomainService.Services;
+using DomainServices.Repositories;
+using DomainServices.Services;
 using System;
 using System.Collections.Generic;
 
@@ -30,9 +30,9 @@ namespace Services
             return _treatmentRepository.GetByID(id);
         }
 
-        public void SaveTreatment(Treatment treatment)
+        public void Update(Treatment treatment)
         {
-            _treatmentRepository.SaveTreatment(treatment);
+            _treatmentRepository.Update(treatment);
         }
     }
 }

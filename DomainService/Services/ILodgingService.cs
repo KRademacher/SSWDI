@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace DomainServices.Services
 {
-    public interface ICommentService : ICommentRepository
+    public interface ILodgingService : ILodgingRepository
     {
-        public IEnumerable<Comment> GetRelatedComments(int animalId);
+        IEnumerable<Lodging> GetCompatibleLodgings(int animalId);
     }
 }

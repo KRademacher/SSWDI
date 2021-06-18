@@ -3,6 +3,7 @@
     public enum LodgingType
     {
         Individual,
-        Group
+        GroupMale,
+        GroupFemale
     }
 }

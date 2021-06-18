@@ -1,6 +1,6 @@
-﻿using DomainService.Repositories;
+﻿using DomainServices.Repositories;
 
-namespace DomainService.Services
+namespace DomainServices.Services
 {
     public interface ITreatmentService : ITreatmentRepository
     {
