@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.DomainModel
 {
@@ -58,5 +59,10 @@ namespace Core.DomainModel
         public bool Adoptable { get; set; }
 
         public string AdoptedBy { get; set; }
+
+        public int LodgingID { get; set; }
+        
+        [ForeignKey("LodgingID")]
+        public Lodging LodgingLocation { get; set; }
     }
 }

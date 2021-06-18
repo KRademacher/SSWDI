@@ -1,9 +1,11 @@
 ﻿using Core.DomainModel;
 
-namespace DomainService.Repositories
+namespace DomainServices.Repositories
 {
-    public interface IAnimalRepository : ICrudRepository<Animal>
+    public interface IAnimalRepository : IGenericRepository<Animal>
     {
-        void SaveAnimal(Animal animal);
+        void Update(Animal animal);
+
+        void Delete(Animal animal);
     }
 }

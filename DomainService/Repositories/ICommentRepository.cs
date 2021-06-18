@@ -1,9 +1,11 @@
 ﻿using Core.DomainModel;
 
-namespace DomainService.Repositories
+namespace DomainServices.Repositories
 {
-    public interface ICommentRepository : ICrudRepository<Comment>
+    public interface ICommentRepository : IGenericRepository<Comment>
     {
-        void SaveComment(Comment comment);
+        void Update(Comment comment);
+
+        void Delete(Comment comment);
     }
 }

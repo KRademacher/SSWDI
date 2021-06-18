@@ -1,6 +1,6 @@
 ﻿using Core.DomainModel;
-using DomainService.Repositories;
-using DomainService.Services;
+using DomainServices.Repositories;
+using DomainServices.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,9 +44,9 @@ namespace Services
             return animal.Comments;
         }
 
-        public void SaveComment(Comment comment)
+        public void Update(Comment comment)
         {
-            _commentRepository.SaveComment(comment);
+            _commentRepository.Update(comment);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Core.DomainModel;
-using DomainService.Repositories;
-using DomainService.Services;
+using DomainServices.Repositories;
+using DomainServices.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace Services
             return _animalRepository.GetByID(id);
         }
 
-        public void SaveAnimal(Animal animal)
+        public void Update(Animal animal)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Services
                 {
                     throw new InvalidOperationException("Age can't be less than 0.");
                 }
-                _animalRepository.SaveAnimal(animal);
+                _animalRepository.Update(animal);
             }
             catch (InvalidOperationException iOE)
             {

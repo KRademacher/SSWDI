@@ -1,9 +1,11 @@
 ﻿using Core.DomainModel;
 
-namespace DomainService.Repositories
+namespace DomainServices.Repositories
 {
-    public interface ITreatmentRepository : ICrudRepository<Treatment>
+    public interface ITreatmentRepository : IGenericRepository<Treatment>
     {
-        void SaveTreatment(Treatment treatment);
+        void Update(Treatment treatment);
+
+        void Delete(Treatment treatment);
     }
 }
