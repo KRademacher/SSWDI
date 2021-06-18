@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.DomainModel
@@ -7,5 +8,10 @@ namespace Core.DomainModel
     {
         [Required]
         public DateTime DateOfBirth { get; set; }
+
+        public Volunteer()
+        {
+            UserRole = UserRole.Volunteer;
+        }
     }
 }

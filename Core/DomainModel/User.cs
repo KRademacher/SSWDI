@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.DomainModel
 {
@@ -17,5 +18,7 @@ namespace Core.DomainModel
         public string EmailAddress { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
+
+        public UserRole UserRole { get; protected set; }
     }
 }
