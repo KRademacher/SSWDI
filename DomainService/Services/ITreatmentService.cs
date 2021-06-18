@@ -2,7 +2,7 @@
 
 namespace DomainService.Services
 {
-    interface ITreatmentService : ITreatmentRepository
+    public interface ITreatmentService : ITreatmentRepository
     {
 
     }
