@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Core.Enums;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.DomainModel
@@ -17,5 +18,10 @@ namespace Core.DomainModel
 
         public List<Animal> AdoptedAnimals { get; set; } = new List<Animal>();
         public List<Animal> AnimalsInterestedIn { get; set; } = new List<Animal>();
+
+        public Customer()
+        {
+            UserRole = UserRole.Customer;
+        }
     }
 }
