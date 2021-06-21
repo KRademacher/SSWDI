@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFData", "EFData\EFData.csproj", "{A1840C8A-4A1A-4A67-B5DB-62174419904F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{9141CA86-6A5B-4B02-8EF4-DA7F48929BE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{9141CA86-6A5B-4B02-8EF4-DA7F48929BE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management", "Management\Management.csproj", "{6A23BFF3-76E7-4322-B07B-6F2363F0D71C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{9141CA86-6A5B-4B02-8EF4-DA7F48929BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9141CA86-6A5B-4B02-8EF4-DA7F48929BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9141CA86-6A5B-4B02-8EF4-DA7F48929BE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A23BFF3-76E7-4322-B07B-6F2363F0D71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A23BFF3-76E7-4322-B07B-6F2363F0D71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A23BFF3-76E7-4322-B07B-6F2363F0D71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A23BFF3-76E7-4322-B07B-6F2363F0D71C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

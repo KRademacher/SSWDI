@@ -2,8 +2,8 @@
 
 namespace DomainServices.Repositories
 {
-    interface IUserRepository : IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
-
+        User FindByUserName(string username);
     }
 }
