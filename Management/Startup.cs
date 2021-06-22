@@ -1,3 +1,6 @@
+using AutoMapper;
+using Core.DomainModel;
+using DomainServices.Repositories;
 using DomainServices.Services;
 using EFData;
 using Identity;
@@ -32,12 +35,12 @@ namespace Management
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration["Data:Identity:ConnectionString"])
+                    Configuration["Data:AnimalShelter:ConnectionString"])
                     .EnableSensitiveDataLogging());
 
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration["Data:AnimalShelter:ConnectionString"])
+                    Configuration["Data:Identity:ConnectionString"])
                     .EnableSensitiveDataLogging());
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -46,14 +49,45 @@ namespace Management
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<AppIdentityDbContext>();
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
+            .AddDefaultTokenProviders();
 
-            services.AddControllersWithViews();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireVolunteer", policy => policy.RequireRole("Volunteer"));
+                options.AddPolicy("RequireCustomer", policy => policy.RequireRole("Customer"));
+                options.AddPolicy("RequireVolunteerOrCustomer", policy => policy.RequireRole("Volunteer", "Customer"));
+            });
+
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddMvc();
             services.AddSession();
 
+            services.AddAutoMapper(typeof(Startup));
+
+            // Dependency Injection; Repos
+            services.AddTransient<IAnimalRepository, EFAnimalRepository>();
+            services.AddTransient<ICommentRepository, EFCommentRepository>();
+            services.AddTransient<ILodgingRepository, EFLodgingRepository>();
+            services.AddTransient<ITreatmentRepository, EFTreatmentRepository>();
+            services.AddScoped<IUserRepository, EFUserRepository>();
+
+            // Dependency Injection; Services
+            services.AddTransient<IAnimalService, AnimalService>();
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<ILodgingService, LodgingService>();
+            services.AddTransient<ITreatmentService, TreatmentService>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddSingleton<PasswordHasher<ApplicationUser>>();
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Volunteer, ApplicationUser>();
+                cfg.CreateMap<Customer, ApplicationUser>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

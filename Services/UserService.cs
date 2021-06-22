@@ -52,7 +52,8 @@ namespace Services
             var result = await _userManager.CreateAsync(applicationUser);
             if (result.Succeeded)
             {
-                if (_roleManager.FindByNameAsync("Customer") == null)
+                bool roleExists = await _roleManager.RoleExistsAsync("Customer");
+                if (!roleExists)
                 {
                     var newRole = new IdentityRole("Customer");
                     await _roleManager.CreateAsync(newRole);
@@ -69,11 +70,13 @@ namespace Services
         {
             applicationUser.Id = Guid.NewGuid().ToString();
             applicationUser.UserName = volunteer.EmailAddress;
+            applicationUser.Email = volunteer.EmailAddress;
 
             var result = await _userManager.CreateAsync(applicationUser);
             if (result.Succeeded)
             {
-                if (_roleManager.FindByNameAsync("Volunteer") == null)
+                bool roleExists = await _roleManager.RoleExistsAsync("Volunteer");
+                if (!roleExists)
                 {
                     var newRole = new IdentityRole("Volunteer");
                     await _roleManager.CreateAsync(newRole);

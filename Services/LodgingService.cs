@@ -8,10 +8,16 @@ using System.Text;
 
 namespace Services
 {
-    class LodgingService : ILodgingService
+    public class LodgingService : ILodgingService
     {
         private readonly IAnimalRepository _animalRepository;
         private readonly ILodgingRepository _lodgingRepository;
+
+        public LodgingService(IAnimalRepository animalRepository, ILodgingRepository lodgingRepository)
+        {
+            _animalRepository = animalRepository;
+            _lodgingRepository = lodgingRepository;
+        }
 
         public void Create(Lodging lodging)
         {

@@ -13,6 +13,8 @@ namespace EFData
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Lodging> Lodgings { get; set; }
         public DbSet<Treatment> Treatments { get; set; }
+        public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

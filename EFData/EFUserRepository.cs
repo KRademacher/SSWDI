@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace EFData
 {
-    class EFUserRepository : EFGenericRepository<User>, IUserRepository
+    public class EFUserRepository : EFGenericRepository<User>, IUserRepository
     {
         public EFUserRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

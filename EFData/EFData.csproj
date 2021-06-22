@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210618195411_InitialEFMigration.cs" />
+    <Compile Remove="Migrations\20210618195411_InitialEFMigration.Designer.cs" />
+    <Compile Remove="Migrations\20210621213326_DatabaseFix.cs" />
+    <Compile Remove="Migrations\20210621213326_DatabaseFix.Designer.cs" />
+    <Compile Remove="Migrations\20210621213422_DatabaseFix2.cs" />
+    <Compile Remove="Migrations\20210621213422_DatabaseFix2.Designer.cs" />
+    <Compile Remove="Migrations\20210621214042_FixedInitialMigration.cs" />
+    <Compile Remove="Migrations\20210621214042_FixedInitialMigration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.16">
       <PrivateAssets>all</PrivateAssets>

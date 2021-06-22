@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFData.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210618195411_InitialEFMigration")]
-    partial class InitialEFMigration
+    [Migration("20210621214143_FixedInitialMigration")]
+    partial class FixedInitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

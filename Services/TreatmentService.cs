@@ -10,6 +10,11 @@ namespace Services
     {
         private readonly ITreatmentRepository _treatmentRepository;
 
+        public TreatmentService(ITreatmentRepository treatmentRepository)
+        {
+            _treatmentRepository = treatmentRepository;
+        }
+
         public void Create(Treatment treatment)
         {
             _treatmentRepository.Create(treatment);
