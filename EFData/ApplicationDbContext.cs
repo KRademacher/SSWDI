@@ -20,7 +20,50 @@ namespace EFData
         {
             base.OnModelCreating(modelBuilder);
 
-            // TODO: Add relations
+            // Make email unique
+            modelBuilder.Entity<Volunteer>()
+                .HasIndex(v => v.EmailAddress)
+                .IsUnique();
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.EmailAddress)
+                .IsUnique();
+
+            // Many to many relationship between Customer and Animal.
+            // A customer can show interest in multiple animals.
+            // An animal can have multiple customers interested.
+            modelBuilder.Entity<InterestedAnimal>()
+                .HasKey(ia => new { ia.AnimalID, ia.CustomerID });
+            modelBuilder.Entity<InterestedAnimal>()
+                .HasOne(ia => ia.Animal)
+                .WithMany(a => a.InterestedAdoptees)
+                .HasForeignKey(ia => ia.AnimalID);
+            modelBuilder.Entity<InterestedAnimal>()
+                .HasOne(ia => ia.Customer)
+                .WithMany(c => c.AnimalsInterestedIn)
+                .HasForeignKey(ia => ia.CustomerID);
+
+            // Each animal can have multiple comments and treatments.
+            modelBuilder.Entity<Animal>(animal =>
+            {
+                animal.HasMany(a => a.Comments)
+                    .WithOne(c => c.CommentedOn)
+                    .OnDelete(DeleteBehavior.Cascade);
+                animal.HasMany(a => a.Treatments)
+                    .WithOne(t => t.PerformedOn)
+                    .OnDelete(DeleteBehavior.Cascade);
+                // A customer can adopt multiple animals, but an animal can only be adopted once.
+                animal.HasOne(a => a.AdoptedBy)
+                    .WithMany(c => c.AdoptedAnimals)
+                    .HasForeignKey(a => a.AdoptedByID)
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // A lodging can house multiple animals
+            modelBuilder.Entity<Lodging>()
+                .HasMany(l => l.LodgingAnimals)
+                .WithOne(a => a.LodgingLocation)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

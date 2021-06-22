@@ -19,6 +19,15 @@ namespace Services
             _lodgingRepository = lodgingRepository;
         }
 
+        public void AddAnimalToLodge(Lodging lodging, Animal animal)
+        {
+            if (lodging.CurrentCapacity + 1 > lodging.MaxCapacity)
+            {
+                lodging.LodgingAnimals.Add(animal);
+                lodging.CurrentCapacity++;
+            }
+        }
+
         public void Create(Lodging lodging)
         {
             _lodgingRepository.Create(lodging);
@@ -32,6 +41,12 @@ namespace Services
         public IEnumerable<Lodging> GetAll()
         {
             return _lodgingRepository.GetAll();
+        }
+
+        public IEnumerable<Animal> GetAnimalsInLodge(int id)
+        {
+            var lodge = GetByID(id);
+            return lodge.LodgingAnimals;
         }
 
         public Lodging GetByID(int id)
@@ -72,6 +87,15 @@ namespace Services
                 }
             }
             return compatibleLodges;
+        }
+
+        public void RemoveAnimalFromLodge(Lodging lodging, Animal animal)
+        {
+            if (lodging.LodgingAnimals.Contains(animal))
+            {
+                lodging.LodgingAnimals.Remove(animal);
+                lodging.CurrentCapacity--;
+            }
         }
 
         public void Update(Lodging lodging)

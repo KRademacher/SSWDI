@@ -4,14 +4,16 @@ using EFData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFData.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210622212902_Updated Animal Model")]
+    partial class UpdatedAnimalModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace EFData.Migrations
                     b.Property<bool>("Adoptable")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("AdoptedByID")
+                    b.Property<int>("AdoptedByID")
                         .HasColumnType("int");
 
                     b.Property<int>("Age")
@@ -41,16 +43,16 @@ namespace EFData.Migrations
                     b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateOfAdoption")
+                    b.Property<DateTime>("DateOfAdoption")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfArrival")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateOfPassing")
+                    b.Property<DateTime>("DateOfPassing")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -76,7 +78,7 @@ namespace EFData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("LodgingID")
+                    b.Property<int>("LodgingID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -301,12 +303,14 @@ namespace EFData.Migrations
                     b.HasOne("Core.DomainModel.Customer", "AdoptedBy")
                         .WithMany("AdoptedAnimals")
                         .HasForeignKey("AdoptedByID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Core.DomainModel.Lodging", "LodgingLocation")
                         .WithMany("LodgingAnimals")
                         .HasForeignKey("LodgingID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.DomainModel.Comment", b =>

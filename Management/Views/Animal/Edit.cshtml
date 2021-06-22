@@ -1,0 +1,123 @@
+﻿@model Core.DomainModel.Animal
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Animal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedAge" class="control-label"></label>
+                <input asp-for="EstimatedAge" class="form-control" />
+                <span asp-validation-for="EstimatedAge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnimalType" class="control-label"></label>
+                <select asp-for="AnimalType" asp-items="Html.GetEnumSelectList<AnimalType>()" class="form-control"></select>
+                <span asp-validation-for="AnimalType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Breed" class="control-label"></label>
+                <input asp-for="Breed" class="form-control" />
+                <span asp-validation-for="Breed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" asp-items="@Html.GetEnumSelectList<Gender>()" class="form-control"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfArrival" class="control-label"></label>
+                <input asp-for="DateOfArrival" class="form-control" />
+                <span asp-validation-for="DateOfArrival" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfAdoption" class="control-label"></label>
+                <input asp-for="DateOfAdoption" class="form-control" />
+                <span asp-validation-for="DateOfAdoption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfPassing" class="control-label"></label>
+                <input asp-for="DateOfPassing" class="form-control" />
+                <span asp-validation-for="DateOfPassing" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsNeutered" /> @Html.DisplayNameFor(model => model.IsNeutered)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsChildFriendly" class="control-label"></label>
+                <select asp-for="IsChildFriendly" asp-items="@Html.GetEnumSelectList<ChildFriendly>()" class="form-control"></select>
+                <span asp-validation-for="IsChildFriendly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeavingReason" class="control-label"></label>
+                <input asp-for="LeavingReason" class="form-control" />
+                <span asp-validation-for="LeavingReason" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Adoptable" /> @Html.DisplayNameFor(model => model.Adoptable)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+    //Only Birthday or Estimated age should be added; Service additionally checks this.
+    var birthday = document.getElementById("DateOfBirth");
+    var estimate = document.getElementById("EstimatedAge");
+
+    if (birthday.value != "") {
+        estimate.disabled = this.value != "";
+    }
+    if (estimate.value != 0) {
+        birthday.disabled = this.value != "";
+    }
+
+    birthday.oninput = function () {
+        estimate.disabled = this.value != "";
+    }
+    estimate.oninput = function () {
+        birthday.disabled = this.value != "";
+    }
+</script>
+}

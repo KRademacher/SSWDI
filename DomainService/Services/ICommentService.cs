@@ -6,6 +6,6 @@ namespace DomainServices.Services
 {
     public interface ICommentService : ICommentRepository
     {
-        public IEnumerable<Comment> GetRelatedComments(int animalId);
+        IEnumerable<Comment> GetRelatedComments(int animalId);
     }
 }

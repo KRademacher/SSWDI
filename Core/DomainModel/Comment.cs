@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.DomainModel
 {
@@ -18,5 +19,9 @@ namespace Core.DomainModel
         [Required]
         public string Author { get; set; }
 
+        public int AnimalID { get; set; }
+
+        [ForeignKey("AnimalID")]
+        public Animal CommentedOn { get; set; }
     }
 }

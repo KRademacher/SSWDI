@@ -3,7 +3,9 @@ using DomainServices.Repositories;
 using DomainServices.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services
 {
@@ -19,6 +21,11 @@ namespace Services
         public void AddComment(Animal animal, Comment comment)
         {
             animal.Comments.Add(comment);
+        }
+
+        public void AddTreatment(Animal animal, Treatment treatment)
+        {
+            animal.Treatments.Add(treatment);
         }
 
         public void Create(Animal animal)
@@ -58,6 +65,18 @@ namespace Services
             return _animalRepository.GetByID(id);
         }
 
+        public void RemoveImage(Animal animal, string wwwRootPath)
+        {
+            if (animal.ImageName != null)
+            {
+                var imagePath = Path.Combine(wwwRootPath, "images", animal.ImageName);
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
+        }
+
         public void Update(Animal animal)
         {
             try
@@ -73,6 +92,22 @@ namespace Services
             {
                 throw iOE;
             }
+        }
+
+        public async Task<string> UploadImage(Animal animal, string wwwRootPath)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(animal.ImageFile.FileName);
+            string extension = Path.GetExtension(animal.ImageFile.FileName);
+            // Make filename unique
+            fileName = fileName + DateTime.Now.ToString("yyMMdd_HHmmss") + extension;
+            animal.ImageName = fileName;
+
+            string path = Path.Combine(wwwRootPath + "/images", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await animal.ImageFile.CopyToAsync(fileStream);
+            }
+            return fileName;
         }
 
         private int CalculateAnimalAge(Animal animal)
@@ -100,10 +135,10 @@ namespace Services
             {
                 //Calculate the age of the animal
                 var today = DateTime.Today;
-                var age = today.Year - animal.DateOfBirth.Year;
+                var age = today.Year - animal.DateOfBirth.Value.Year;
 
                 //Account for leap years
-                if (animal.DateOfBirth.Date > today.AddYears(-age))
+                if (animal.DateOfBirth.Value.Date > today.AddYears(-age))
                 {
                     age--;
                 }

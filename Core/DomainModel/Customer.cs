@@ -17,7 +17,7 @@ namespace Core.DomainModel
         public string Country { get; set; }
 
         public List<Animal> AdoptedAnimals { get; set; } = new List<Animal>();
-        public List<Animal> AnimalsInterestedIn { get; set; } = new List<Animal>();
+        public List<InterestedAnimal> AnimalsInterestedIn { get; set; } = new List<InterestedAnimal>();
 
         public Customer()
         {

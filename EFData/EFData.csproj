@@ -13,6 +13,18 @@
     <Compile Remove="Migrations\20210621213422_DatabaseFix2.Designer.cs" />
     <Compile Remove="Migrations\20210621214042_FixedInitialMigration.cs" />
     <Compile Remove="Migrations\20210621214042_FixedInitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20210622175500_Added relations.cs" />
+    <Compile Remove="Migrations\20210622175500_Added relations.Designer.cs" />
+    <Compile Remove="Migrations\20210622180021_Fixed Animals Customer FK.cs" />
+    <Compile Remove="Migrations\20210622180021_Fixed Animals Customer FK.Designer.cs" />
+    <Compile Remove="Migrations\20210622180433_Fixed Animals Customer FK 2.cs" />
+    <Compile Remove="Migrations\20210622180433_Fixed Animals Customer FK 2.Designer.cs" />
+    <Compile Remove="Migrations\20210622180749_Fixed Animals Customer FK 3.cs" />
+    <Compile Remove="Migrations\20210622180749_Fixed Animals Customer FK 3.Designer.cs" />
+    <Compile Remove="Migrations\20210622181121_Fixed Animals Customer FK 4.cs" />
+    <Compile Remove="Migrations\20210622181121_Fixed Animals Customer FK 4.Designer.cs" />
+    <Compile Remove="Migrations\20210622220151_Updated Animal-Customer relation.cs" />
+    <Compile Remove="Migrations\20210622220151_Updated Animal-Customer relation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.16">
       <PrivateAssets>all</PrivateAssets>
