@@ -48,6 +48,7 @@ namespace Services
         {
             applicationUser.Id = Guid.NewGuid().ToString();
             applicationUser.UserName = customer.EmailAddress;
+            applicationUser.Email = customer.EmailAddress;
 
             var result = await _userManager.CreateAsync(applicationUser);
             if (result.Succeeded)

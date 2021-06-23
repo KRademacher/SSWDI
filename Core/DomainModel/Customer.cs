@@ -6,9 +6,6 @@ namespace Core.DomainModel
 {
     public class Customer : User
     {
-        [Required]
-        public int RegistrationNumber { get; set; }
-
         public string StreetName { get; set; }
         public int HouseNumber { get; set; }
         public string HouseNumberAddition { get; set; }
