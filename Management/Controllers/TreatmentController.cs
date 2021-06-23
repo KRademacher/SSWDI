@@ -1,4 +1,5 @@
 ﻿using Core.DomainModel;
+using Core.Enums;
 using DomainServices.Services;
 using Management.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -13,90 +14,124 @@ namespace Management.Controllers
     public class TreatmentController : Controller
     {
         private readonly IAnimalService _animalService;
-        private readonly ITreatmentService _treatmentService;
 
-        public TreatmentController(IAnimalService animalService, ITreatmentService treatmentService)
+        public TreatmentController(IAnimalService animalService)
         {
             _animalService = animalService;
-            _treatmentService = treatmentService;
         }
 
-        // GET: TreatmentController
-        public IActionResult Index(int? animalId = null)
+        [Route("Animal/{animalId:int}/Treatment")]
+        public IActionResult Index(int animalId)
         {
             IEnumerable<Treatment> treatments;
-            if (animalId != null)
-            {
-                ViewBag.AnimalName = _animalService.GetByID(animalId.Value).Name;
-                treatments = _treatmentService.GetTreatmentsOfAnimal(animalId.Value);
-            }
-            else
-            {
-                treatments = _treatmentService.GetAll();
-            }
+            ViewBag.AnimalId = animalId;
+            ViewBag.AnimalName = _animalService.GetByID(animalId).Name;
+            treatments = _animalService.GetTreatments(animalId);
             return View(treatments);
         }
 
-        // GET: TreatmentController/Details/5
-        public IActionResult Details(int id)
+        [Route("Animal/{animalId:int}/Treatment/Details/{id:int}")]
+        public IActionResult Details(int id, int animalId)
         {
-            var treatment = _treatmentService.GetByID(id);
+            ViewBag.AnimalId = animalId;
+            var animal = _animalService.GetByID(animalId);
+            var treatment = animal.Treatments.FirstOrDefault(t => t.ID == id);
             return View(treatment);
         }
 
-        // GET: TreatmentController/Create
-        public IActionResult Create()
+        [Route("Animal/{animalId:int}/Treatment/Create")]
+        public IActionResult Create(int animalId)
         {
-            return View();
+            var treatment = new Treatment()
+            {
+                AnimalID = animalId,
+                PerformedOn = _animalService.GetByID(animalId)
+            };
+            return View(treatment);
         }
 
-        // POST: TreatmentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Animal/{animalId:int}/Treatment/Create")]
         public IActionResult Create(Treatment treatment)
         {
+            if (treatment.TreatmentType == TreatmentType.Euthanasia || 
+                treatment.TreatmentType == TreatmentType.Surgery ||
+                treatment.TreatmentType == TreatmentType.Vaccination ||
+                treatment.TreatmentType == TreatmentType.Chipping)
+            {
+                if (treatment.TreatmentType == TreatmentType.Chipping && 
+                    string.IsNullOrWhiteSpace(treatment.Description))
+                {
+                    ModelState.AddModelError(nameof(treatment.Description), "Entering GUID is required with chipping.");
+                }
+                if (string.IsNullOrWhiteSpace(treatment.Description))
+                {
+                    ModelState.AddModelError(nameof(treatment.Description), "Description is required with this treatment.");
+                }
+            }
             if (ModelState.IsValid)
             {
-                _treatmentService.Create(treatment);
-                return RedirectToAction(nameof(Index));
+                _animalService.AddTreatment(treatment);
+                return Redirect($"~/Animal/{treatment.AnimalID}/Treatment");
             }
             return View(treatment);
         }
 
-        // GET: TreatmentController/Edit/5
-        public IActionResult Edit(int id)
+        [Route("Animal/{animalId:int}/Treatment/Edit/{id:int}")]
+        public IActionResult Edit(int id, int animalId)
         {
-            var treatment = _treatmentService.GetByID(id);
+
+            ViewBag.AnimalId = animalId;
+            var animal = _animalService.GetByID(animalId);
+            var treatment = animal.Treatments.FirstOrDefault(t => t.ID == id);
             return View(treatment);
         }
 
-        // POST: TreatmentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Animal/{animalId:int}/Treatment/Edit/{id:int}")]
         public IActionResult Edit(Treatment treatment)
         {
+            if (treatment.TreatmentType == TreatmentType.Euthanasia ||
+                treatment.TreatmentType == TreatmentType.Surgery ||
+                treatment.TreatmentType == TreatmentType.Vaccination ||
+                treatment.TreatmentType == TreatmentType.Chipping)
+            {
+                if (treatment.TreatmentType == TreatmentType.Chipping &&
+                    string.IsNullOrWhiteSpace(treatment.Description))
+                {
+                    ModelState.AddModelError(nameof(treatment.Description), "Entering GUID is required with chipping.");
+                }
+                if (string.IsNullOrWhiteSpace(treatment.Description))
+                {
+                    ModelState.AddModelError(nameof(treatment.Description), "Description is required with this treatment.");
+                }
+            }
             if (ModelState.IsValid)
             {
-                _treatmentService.Update(treatment);
-                return RedirectToAction(nameof(Index));
+                _animalService.UpdateTreatment(treatment);
+                return Redirect($"~/Animal/{treatment.AnimalID}/Treatment");
             }
             return View(treatment);
         }
 
-        // GET: TreatmentController/Delete/5
-        public IActionResult Delete(int id)
+        [Route("Animal/{animalId:int}/Treatment/Delete/{id:int}")]
+        public IActionResult Delete(int id, int animalId)
         {
-            var treatment = _treatmentService.GetByID(id);
+            ViewBag.AnimalId = animalId;
+            var animal = _animalService.GetByID(animalId);
+            var treatment = animal.Treatments.FirstOrDefault(t => t.ID == id);
             return View(treatment);
         }
 
-        // POST: TreatmentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Animal/{animalId:int}/Treatment/Delete/{id:int}")]
         public IActionResult Delete(Treatment treatment)
         {
-            _treatmentService.Delete(treatment);
-            return RedirectToAction(nameof(Index));
+            _animalService.DeleteTreatment(treatment);
+            return Redirect($"~/Animal/{treatment.AnimalID}/Treatment");
         }
     }
 }

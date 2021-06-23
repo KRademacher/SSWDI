@@ -17,18 +17,15 @@ namespace Management.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly ILodgingService _lodgingService;
-        private readonly ITreatmentService _treatmentService;
         private readonly IWebHostEnvironment _hostEnvironment;
 
         public AnimalController(
             IAnimalService animalService, 
             ILodgingService lodgingService,
-            ITreatmentService treatmentService,
             IWebHostEnvironment hostEnvironment)
         {
             _animalService = animalService;
             _lodgingService = lodgingService;
-            _treatmentService = treatmentService;
             _hostEnvironment = hostEnvironment;
         }
 
@@ -135,7 +132,7 @@ namespace Management.Controllers
             var animal = _animalService.GetByID(viewModel.Animal.ID);
             var lodge = _lodgingService.GetByID(viewModel.Lodging.ID);
             // Check if the lodge isn't the same. If it is, nothing needs to happen
-            if (animal.LodgingID.Value != lodge.ID)
+            if (animal.LodgingID == null || animal.LodgingID.Value != lodge.ID)
             {
                 _lodgingService.AddAnimalToLodge(lodge, animal);
             }
@@ -162,36 +159,6 @@ namespace Management.Controllers
             var animal = _animalService.GetByID(viewModel.Animal.ID);
             var lodge = _lodgingService.GetByID(viewModel.Lodging.ID);
             _lodgingService.RemoveAnimalFromLodge(lodge, animal);
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        public IActionResult AddTreatmentToAnimal(int id)
-        {
-            var animal = _animalService.GetByID(id);
-            var viewModel = new TreatmentViewModel()
-            {
-                Animal = animal,
-                Treatments = _treatmentService.GetAll().ToList()
-            };
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        public IActionResult AddTreatmentToAnimal(TreatmentViewModel viewModel)
-        {
-            var animal = _animalService.GetByID(viewModel.Animal.ID);
-            var treatment = _treatmentService.GetByID(viewModel.Treatment.ID);
-            var animalTreatment = new AnimalTreatment()
-            {
-                AnimalID = animal.ID,
-                Animal = animal,
-                TreatmentID = treatment.ID,
-                Treatment = treatment,
-                PerformedBy = viewModel.PerformedBy,
-                PerformDate = viewModel.PerformDate
-            };
-            _animalService.AddTreatment(animalTreatment);
             return RedirectToAction(nameof(Index));
         }
     }

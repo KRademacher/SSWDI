@@ -34,9 +34,21 @@
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.MinimumAge)
         </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.PerformedBy)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.PerformedBy)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.PerformDate)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.PerformDate)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID, animalId = (int)ViewBag.AnimalId }, null) |
+    @Html.ActionLink("Back to List", "Index", new { animalId = (int)ViewBag.AnimalId }, null)
 </div>

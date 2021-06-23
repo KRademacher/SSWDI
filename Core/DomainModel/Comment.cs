@@ -14,6 +14,7 @@ namespace Core.DomainModel
         public string Content { get; set; }
 
         [Required]
+        [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
         public DateTime Date 
         {

@@ -21,6 +21,27 @@ namespace Core.DomainModel
 
         public int MinimumAge { get; set; }
 
-        public List<AnimalTreatment> AnimalTreatments { get; set; } = new List<AnimalTreatment>();
+        [Required]
+        public string PerformedBy { get; set; }
+
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime PerformDate
+        {
+            get
+            {
+                return _performDate ?? DateTime.Now;
+            }
+            set
+            {
+                _performDate = value;
+            }
+        }
+
+        public int AnimalID { get; set; }
+        [ForeignKey("AnimalID")]
+        public Animal PerformedOn { get; set; }
+
+        private DateTime? _performDate;
     }
 }

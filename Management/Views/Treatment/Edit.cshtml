@@ -34,6 +34,16 @@
                 <span asp-validation-for="MinimumAge" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="PerformedBy" class="control-label"></label>
+                <input asp-for="PerformedBy" class="form-control" />
+                <span asp-validation-for="PerformedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PerformDate" class="control-label"></label>
+                <input asp-for="PerformDate" class="form-control" />
+                <span asp-validation-for="PerformDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -41,7 +51,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    @Html.ActionLink("Back to List", "Index", new { animalId = (int)ViewBag.AnimalId }, null)
 </div>
 
 @section Scripts {

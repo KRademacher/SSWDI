@@ -69,16 +69,12 @@ namespace Management
 
             // Dependency Injection; Repos
             services.AddTransient<IAnimalRepository, EFAnimalRepository>();
-            services.AddTransient<ICommentRepository, EFCommentRepository>();
             services.AddTransient<ILodgingRepository, EFLodgingRepository>();
-            services.AddTransient<ITreatmentRepository, EFTreatmentRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
             // Dependency Injection; Services
             services.AddTransient<IAnimalService, AnimalService>();
-            services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ILodgingService, LodgingService>();
-            services.AddTransient<ITreatmentService, TreatmentService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<PasswordHasher<ApplicationUser>>();

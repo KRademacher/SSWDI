@@ -63,7 +63,7 @@ namespace Core.DomainModel
         [Display(Name = "Is the animal child friendly?")]
         public  ChildFriendly IsChildFriendly { get; set; }
 
-        public List<AnimalTreatment> Treatments { get; set; } = new List<AnimalTreatment>();
+        public List<Treatment> Treatments { get; set; } = new List<Treatment>();
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
 

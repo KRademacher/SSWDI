@@ -13,16 +13,16 @@ else
 }
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("Add new treatment", "Create", new { animalId = (int)ViewBag.AnimalId }, null)
 </p>
 <table class="table table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.TreatmentType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TreatmentType)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cost)
@@ -35,12 +35,12 @@ else
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style="cursor: pointer;" onclick="location.href = '@Url.Action("Details", "Treatment", new { id = item.ID })'">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+            <tr style="cursor: pointer;" onclick="location.href = '@Url.Action("Details", "Treatment", new { id = item.ID, animalId = (int)ViewBag.AnimalId })'">
                 <td>
                     @Html.DisplayFor(modelItem => item.TreatmentType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cost)
