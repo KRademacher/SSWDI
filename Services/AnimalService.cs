@@ -25,22 +25,22 @@ namespace Services
             _animalRepository.Update(animal);
         }
 
-        public void AddTreatment(AnimalTreatment animalTreatment)
+        public void AddTreatment(Treatment treatment)
         {
             try
             {
-                if (animalTreatment.Animal.DateOfPassing != null ||
-                    animalTreatment.Animal.DateOfPassing.Value > animalTreatment.PerformDate)
+                var animal = GetByID(treatment.AnimalID);
+                if (animal.DateOfPassing != null && animal.DateOfPassing.Value > treatment.PerformDate)
                 {
                     throw new InvalidOperationException("Cannot perform treatment on dead animal.");
                 }
-                if (animalTreatment.Animal.LodgingID == null)
+                if (animal.LodgingID == null)
                 {
                     throw new InvalidOperationException("Cannot add treatment to animal not in lodging.");
                 }
 
-                animalTreatment.Animal.Treatments.Add(animalTreatment);
-                _animalRepository.Update(animalTreatment.Animal);
+                animal.Treatments.Add(treatment);
+                _animalRepository.Update(animal);
             }
             catch (InvalidOperationException iOE)
             {
@@ -70,6 +70,16 @@ namespace Services
             _animalRepository.Delete(animal);
         }
 
+        public void DeleteTreatment(Treatment treatment)
+        {
+            var animal = GetByID(treatment.AnimalID);
+            if (animal.Treatments.Contains(treatment))
+            {
+                animal.Treatments.Remove(treatment);
+                _animalRepository.Update(animal);
+            }
+        }
+
         public IEnumerable<Animal> GetAll()
         {
             return _animalRepository.GetAll();
@@ -89,6 +99,12 @@ namespace Services
         {
             var animal = GetByID(id);
             return animal.Comments;
+        }
+
+        public IEnumerable<Treatment> GetTreatments(int id)
+        {
+            var animal = GetByID(id);
+            return animal.Treatments;
         }
 
         public void RemoveImage(Animal animal, string wwwRootPath)
@@ -117,6 +133,40 @@ namespace Services
             catch (InvalidOperationException iOE)
             {
                 throw iOE;
+            }
+        }
+
+        public void UpdateTreatment(Treatment treatment)
+        {
+            var animal = GetByID(treatment.AnimalID);
+            var oldTreatment = animal.Treatments.FirstOrDefault(t => t.ID == treatment.ID);
+            if (oldTreatment != null)
+            {
+                if (oldTreatment.TreatmentType != treatment.TreatmentType)
+                {
+                    oldTreatment.TreatmentType = treatment.TreatmentType;
+                }
+                if (oldTreatment.Description != treatment.Description)
+                {
+                    oldTreatment.Description = treatment.Description;
+                }
+                if (oldTreatment.Cost != treatment.Cost)
+                {
+                    oldTreatment.Cost = treatment.Cost;
+                }
+                if (oldTreatment.MinimumAge != treatment.MinimumAge)
+                {
+                    oldTreatment.MinimumAge = treatment.MinimumAge;
+                }
+                if (oldTreatment.PerformDate != treatment.PerformDate)
+                {
+                    oldTreatment.PerformDate = treatment.PerformDate;
+                }
+                if (oldTreatment.PerformedBy != treatment.PerformedBy)
+                {
+                    oldTreatment.PerformedBy = treatment.PerformedBy;
+                }
+                _animalRepository.Update(animal);
             }
         }
 

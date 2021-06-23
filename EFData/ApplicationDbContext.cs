@@ -16,8 +16,6 @@ namespace EFData
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
-        public DbSet<AnimalTreatment> AnimalTreatments { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -44,25 +42,14 @@ namespace EFData
                 .WithMany(c => c.AnimalsInterestedIn)
                 .HasForeignKey(ia => ia.CustomerID);
 
-            modelBuilder.Entity<AnimalTreatment>(animalTreatment =>
-            {
-                animalTreatment
-                    .HasKey(at => new { at.AnimalID, at.TreatmentID });
-                animalTreatment
-                    .HasOne(at => at.Animal)
-                    .WithMany(a => a.Treatments)
-                    .HasForeignKey(at => at.AnimalID);
-                animalTreatment
-                    .HasOne(at => at.Treatment)
-                    .WithMany(t => t.AnimalTreatments)
-                    .HasForeignKey(at => at.TreatmentID);
-            });
-
             modelBuilder.Entity<Animal>(animal =>
             {
                 // Each animal can have multiple comments.
                 animal.OwnsMany(a => a.Comments)
                     .HasOne(c => c.CommentedOn);
+                // Each animal can have multiple treatments.
+                animal.OwnsMany(a => a.Treatments)
+                    .HasOne(t => t.PerformedOn);
                 // A customer can adopt multiple animals, but an animal can only be adopted once.
                 animal.HasOne(a => a.AdoptedBy)
                     .WithMany(c => c.AdoptedAnimals)

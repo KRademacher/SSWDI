@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFData.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210621215223_Added Users")]
-    partial class AddedUsers
+    [Migration("20210623130227_NewStart_Initial")]
+    partial class NewStart_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,8 +31,8 @@ namespace EFData.Migrations
                     b.Property<bool>("Adoptable")
                         .HasColumnType("bit");
 
-                    b.Property<string>("AdoptedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("AdoptedByID")
+                        .HasColumnType("int");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -43,22 +43,16 @@ namespace EFData.Migrations
                     b.Property<string>("Breed")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CustomerID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CustomerID1")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateOfAdoption")
+                    b.Property<DateTime?>("DateOfAdoption")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfArrival")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfPassing")
+                    b.Property<DateTime?>("DateOfPassing")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -71,6 +65,9 @@ namespace EFData.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IsChildFriendly")
                         .HasColumnType("int");
 
@@ -81,7 +78,7 @@ namespace EFData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LodgingID")
+                    b.Property<int?>("LodgingID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -93,41 +90,11 @@ namespace EFData.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CustomerID");
-
-                    b.HasIndex("CustomerID1");
+                    b.HasIndex("AdoptedByID");
 
                     b.HasIndex("LodgingID");
 
                     b.ToTable("Animals");
-                });
-
-            modelBuilder.Entity("Core.DomainModel.Comment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AnimalID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AnimalID");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Core.DomainModel.Customer", b =>
@@ -145,7 +112,7 @@ namespace EFData.Migrations
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -179,7 +146,25 @@ namespace EFData.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("EmailAddress")
+                        .IsUnique();
+
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Core.DomainModel.InterestedAnimal", b =>
+                {
+                    b.Property<int>("AnimalID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnimalID", "CustomerID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("InterestedAnimal");
                 });
 
             modelBuilder.Entity("Core.DomainModel.Lodging", b =>
@@ -209,42 +194,6 @@ namespace EFData.Migrations
                     b.ToTable("Lodgings");
                 });
 
-            modelBuilder.Entity("Core.DomainModel.Treatment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AnimalID")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MinimumAge")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PerformDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PerformedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TreatmentType")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AnimalID");
-
-                    b.ToTable("Treatments");
-                });
-
             modelBuilder.Entity("Core.DomainModel.Volunteer", b =>
                 {
                     b.Property<int>("ID")
@@ -257,7 +206,7 @@ namespace EFData.Migrations
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -276,38 +225,108 @@ namespace EFData.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("EmailAddress")
+                        .IsUnique();
+
                     b.ToTable("Volunteers");
                 });
 
             modelBuilder.Entity("Core.DomainModel.Animal", b =>
                 {
-                    b.HasOne("Core.DomainModel.Customer", null)
+                    b.HasOne("Core.DomainModel.Customer", "AdoptedBy")
                         .WithMany("AdoptedAnimals")
-                        .HasForeignKey("CustomerID");
-
-                    b.HasOne("Core.DomainModel.Customer", null)
-                        .WithMany("AnimalsInterestedIn")
-                        .HasForeignKey("CustomerID1");
+                        .HasForeignKey("AdoptedByID")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Core.DomainModel.Lodging", "LodgingLocation")
                         .WithMany("LodgingAnimals")
                         .HasForeignKey("LodgingID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsMany("Core.DomainModel.Comment", "Comments", b1 =>
+                        {
+                            b1.Property<int>("ID")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AnimalID")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Author")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Content")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("Date")
+                                .HasColumnType("datetime2");
+
+                            b1.HasKey("ID");
+
+                            b1.HasIndex("AnimalID");
+
+                            b1.ToTable("Comments");
+
+                            b1.WithOwner("CommentedOn")
+                                .HasForeignKey("AnimalID");
+                        });
+
+                    b.OwnsMany("Core.DomainModel.Treatment", "Treatments", b1 =>
+                        {
+                            b1.Property<int>("ID")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("AnimalID")
+                                .HasColumnType("int");
+
+                            b1.Property<double>("Cost")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("Description")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("MinimumAge")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("PerformDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("PerformedBy")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("TreatmentType")
+                                .HasColumnType("int");
+
+                            b1.HasKey("ID");
+
+                            b1.HasIndex("AnimalID");
+
+                            b1.ToTable("Treatments");
+
+                            b1.WithOwner("PerformedOn")
+                                .HasForeignKey("AnimalID");
+                        });
+                });
+
+            modelBuilder.Entity("Core.DomainModel.InterestedAnimal", b =>
+                {
+                    b.HasOne("Core.DomainModel.Animal", "Animal")
+                        .WithMany("InterestedAdoptees")
+                        .HasForeignKey("AnimalID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Core.DomainModel.Comment", b =>
-                {
-                    b.HasOne("Core.DomainModel.Animal", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("AnimalID");
-                });
-
-            modelBuilder.Entity("Core.DomainModel.Treatment", b =>
-                {
-                    b.HasOne("Core.DomainModel.Animal", null)
-                        .WithMany("Treatments")
-                        .HasForeignKey("AnimalID");
+                    b.HasOne("Core.DomainModel.Customer", "Customer")
+                        .WithMany("AnimalsInterestedIn")
+                        .HasForeignKey("CustomerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

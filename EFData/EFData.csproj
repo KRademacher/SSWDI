@@ -5,31 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20210618195411_InitialEFMigration.cs" />
-    <Compile Remove="Migrations\20210618195411_InitialEFMigration.Designer.cs" />
-    <Compile Remove="Migrations\20210621213326_DatabaseFix.cs" />
-    <Compile Remove="Migrations\20210621213326_DatabaseFix.Designer.cs" />
-    <Compile Remove="Migrations\20210621213422_DatabaseFix2.cs" />
-    <Compile Remove="Migrations\20210621213422_DatabaseFix2.Designer.cs" />
-    <Compile Remove="Migrations\20210621214042_FixedInitialMigration.cs" />
-    <Compile Remove="Migrations\20210621214042_FixedInitialMigration.Designer.cs" />
-    <Compile Remove="Migrations\20210622175500_Added relations.cs" />
-    <Compile Remove="Migrations\20210622175500_Added relations.Designer.cs" />
-    <Compile Remove="Migrations\20210622180021_Fixed Animals Customer FK.cs" />
-    <Compile Remove="Migrations\20210622180021_Fixed Animals Customer FK.Designer.cs" />
-    <Compile Remove="Migrations\20210622180433_Fixed Animals Customer FK 2.cs" />
-    <Compile Remove="Migrations\20210622180433_Fixed Animals Customer FK 2.Designer.cs" />
-    <Compile Remove="Migrations\20210622180749_Fixed Animals Customer FK 3.cs" />
-    <Compile Remove="Migrations\20210622180749_Fixed Animals Customer FK 3.Designer.cs" />
-    <Compile Remove="Migrations\20210622181121_Fixed Animals Customer FK 4.cs" />
-    <Compile Remove="Migrations\20210622181121_Fixed Animals Customer FK 4.Designer.cs" />
-    <Compile Remove="Migrations\20210622220151_Updated Animal-Customer relation.cs" />
-    <Compile Remove="Migrations\20210622220151_Updated Animal-Customer relation.Designer.cs" />
-    <Compile Remove="Migrations\20210623080945_Updated Animal-Comments and Animal-Treatments relations.cs" />
-    <Compile Remove="Migrations\20210623080945_Updated Animal-Comments and Animal-Treatments relations.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.16">
       <PrivateAssets>all</PrivateAssets>

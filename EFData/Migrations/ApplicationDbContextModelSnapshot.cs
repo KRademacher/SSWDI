@@ -95,28 +95,6 @@ namespace EFData.Migrations
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("Core.DomainModel.AnimalTreatment", b =>
-                {
-                    b.Property<int>("AnimalID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TreatmentID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PerformDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PerformedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AnimalID", "TreatmentID");
-
-                    b.HasIndex("TreatmentID");
-
-                    b.ToTable("AnimalTreatments");
-                });
-
             modelBuilder.Entity("Core.DomainModel.Customer", b =>
                 {
                     b.Property<int>("ID")
@@ -214,30 +192,6 @@ namespace EFData.Migrations
                     b.ToTable("Lodgings");
                 });
 
-            modelBuilder.Entity("Core.DomainModel.Treatment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Cost")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MinimumAge")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TreatmentType")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Treatments");
-                });
-
             modelBuilder.Entity("Core.DomainModel.Volunteer", b =>
                 {
                     b.Property<int>("ID")
@@ -317,21 +271,45 @@ namespace EFData.Migrations
                             b1.WithOwner("CommentedOn")
                                 .HasForeignKey("AnimalID");
                         });
-                });
 
-            modelBuilder.Entity("Core.DomainModel.AnimalTreatment", b =>
-                {
-                    b.HasOne("Core.DomainModel.Animal", "Animal")
-                        .WithMany("Treatments")
-                        .HasForeignKey("AnimalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.OwnsMany("Core.DomainModel.Treatment", "Treatments", b1 =>
+                        {
+                            b1.Property<int>("ID")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasOne("Core.DomainModel.Treatment", "Treatment")
-                        .WithMany("AnimalTreatments")
-                        .HasForeignKey("TreatmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b1.Property<int>("AnimalID")
+                                .HasColumnType("int");
+
+                            b1.Property<double>("Cost")
+                                .HasColumnType("float");
+
+                            b1.Property<string>("Description")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("MinimumAge")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("PerformDate")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("PerformedBy")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("TreatmentType")
+                                .HasColumnType("int");
+
+                            b1.HasKey("ID");
+
+                            b1.HasIndex("AnimalID");
+
+                            b1.ToTable("Treatments");
+
+                            b1.WithOwner("PerformedOn")
+                                .HasForeignKey("AnimalID");
+                        });
                 });
 
             modelBuilder.Entity("Core.DomainModel.InterestedAnimal", b =>

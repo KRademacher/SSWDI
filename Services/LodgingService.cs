@@ -22,19 +22,28 @@ namespace Services
 
         public void AddAnimalToLodge(Lodging lodging, Animal animal)
         {
-            // If animal is already in a lodge
-            if (animal.LodgingID != null)
+            try
             {
-                RemoveAnimalFromLodge(lodging, animal);
-            }
-            if (lodging.CurrentCapacity + 1 <= lodging.MaxCapacity)
-            {
+                if (lodging.CurrentCapacity + 1 > lodging.MaxCapacity)
+                {
+                    throw new InvalidOperationException("Chosen lodging is at max capacity.");
+                }
+                // If animal is already in a lodge
+                if (animal.LodgingID != null)
+                {
+                    RemoveAnimalFromLodge(lodging, animal);
+                }
+
                 lodging.LodgingAnimals.Add(animal);
                 lodging.CurrentCapacity++;
                 animal.LodgingID = lodging.ID;
 
                 _lodgingRepository.Update(lodging);
                 _animalRepository.Update(animal);
+            }
+            catch (InvalidOperationException iOE)
+            {
+                throw iOE;
             }
         }
 
