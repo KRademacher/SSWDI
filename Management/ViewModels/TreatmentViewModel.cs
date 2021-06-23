@@ -13,17 +13,18 @@ namespace Management.ViewModels
         public string PerformedBy { get; set; }
         
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime PerformDate { 
+        public DateTime PerformDate 
+        { 
             get 
             {
-                return performedDate ?? DateTime.Now;
+                return _performedDate ?? DateTime.Now;
             }
             set
             { 
-                performedDate = value; 
+                _performedDate = value; 
             } 
         }
 
-        private DateTime? performedDate = null;
+        private DateTime? _performedDate = null;
     }
 }

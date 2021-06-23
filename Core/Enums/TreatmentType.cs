@@ -2,11 +2,11 @@
 {
     public enum TreatmentType
     {
-        Sterilisation,
+        Euthanasia,
         Castration,
-        Vaccination,
-        Surgery,
         Chipping,
-        Euthanasia
+        Sterilisation,
+        Surgery,
+        Vaccination
     }
 }

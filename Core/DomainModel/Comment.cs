@@ -14,7 +14,18 @@ namespace Core.DomainModel
         public string Content { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
+        public DateTime Date 
+        {
+            get
+            {
+                return _date ?? DateTime.Now;
+            }
+            set
+            {
+                _date = value;
+            }
+        }
 
         [Required]
         public string Author { get; set; }
@@ -23,5 +34,7 @@ namespace Core.DomainModel
 
         [ForeignKey("AnimalID")]
         public Animal CommentedOn { get; set; }
+
+        private DateTime? _date;
     }
 }

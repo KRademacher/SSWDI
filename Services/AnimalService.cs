@@ -18,16 +18,34 @@ namespace Services
             _animalRepository = animalRepository;
         }
 
-        public void AddComment(Animal animal, Comment comment)
+        public void AddComment(Comment comment)
         {
+            var animal = GetByID(comment.AnimalID);
             animal.Comments.Add(comment);
             _animalRepository.Update(animal);
         }
 
         public void AddTreatment(AnimalTreatment animalTreatment)
         {
-            animalTreatment.Animal.Treatments.Add(animalTreatment);
-            _animalRepository.Update(animalTreatment.Animal);
+            try
+            {
+                if (animalTreatment.Animal.DateOfPassing != null ||
+                    animalTreatment.Animal.DateOfPassing.Value > animalTreatment.PerformDate)
+                {
+                    throw new InvalidOperationException("Cannot perform treatment on dead animal.");
+                }
+                if (animalTreatment.Animal.LodgingID == null)
+                {
+                    throw new InvalidOperationException("Cannot add treatment to animal not in lodging.");
+                }
+
+                animalTreatment.Animal.Treatments.Add(animalTreatment);
+                _animalRepository.Update(animalTreatment.Animal);
+            }
+            catch (InvalidOperationException iOE)
+            {
+                throw iOE;
+            }
         }
 
         public void Create(Animal animal)
@@ -65,6 +83,12 @@ namespace Services
         public Animal GetByID(int id)
         {
             return _animalRepository.GetByID(id);
+        }
+
+        public IEnumerable<Comment> GetComments(int id)
+        {
+            var animal = GetByID(id);
+            return animal.Comments;
         }
 
         public void RemoveImage(Animal animal, string wwwRootPath)

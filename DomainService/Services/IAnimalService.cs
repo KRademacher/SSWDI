@@ -8,8 +8,9 @@ namespace DomainServices.Services
     public interface IAnimalService : IAnimalRepository
     {
         IEnumerable<Animal> GetAllAvailableAnimals();
-        void AddComment(Animal animal, Comment comment);
+        void AddComment(Comment comment);
         void AddTreatment(AnimalTreatment animalTreatment);
+        IEnumerable<Comment> GetComments(int id);
         Task<string> UploadImage(Animal animal, string wwwRootPath);
         void RemoveImage(Animal animal, string wwwRootPath);
     }
