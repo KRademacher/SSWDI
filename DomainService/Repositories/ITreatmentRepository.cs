@@ -1,4 +1,5 @@
 ﻿using Core.DomainModel;
+using System.Collections.Generic;
 
 namespace DomainServices.Repositories
 {
@@ -7,5 +8,7 @@ namespace DomainServices.Repositories
         void Update(Treatment treatment);
 
         void Delete(Treatment treatment);
+
+        IEnumerable<Treatment> GetTreatmentsOfAnimal(int animalId);
     }
 }

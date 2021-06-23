@@ -35,6 +35,11 @@ namespace Services
             return _treatmentRepository.GetByID(id);
         }
 
+        public IEnumerable<Treatment> GetTreatmentsOfAnimal(int animalId)
+        {
+            return _treatmentRepository.GetTreatmentsOfAnimal(animalId);
+        }
+
         public void Update(Treatment treatment)
         {
             _treatmentRepository.Update(treatment);

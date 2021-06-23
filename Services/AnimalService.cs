@@ -24,10 +24,10 @@ namespace Services
             _animalRepository.Update(animal);
         }
 
-        public void AddTreatment(Animal animal, AnimalTreatment treatment)
+        public void AddTreatment(AnimalTreatment animalTreatment)
         {
-            animal.Treatments.Add(treatment);
-            _animalRepository.Update(animal);
+            animalTreatment.Animal.Treatments.Add(animalTreatment);
+            _animalRepository.Update(animalTreatment.Animal);
         }
 
         public void Create(Animal animal)

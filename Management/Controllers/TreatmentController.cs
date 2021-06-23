@@ -22,9 +22,19 @@ namespace Management.Controllers
         }
 
         // GET: TreatmentController
-        public IActionResult Index()
+        public IActionResult Index(int? animalId = null)
         {
-            return View(_treatmentService.GetAll());
+            IEnumerable<Treatment> treatments;
+            if (animalId != null)
+            {
+                ViewBag.AnimalName = _animalService.GetByID(animalId.Value).Name;
+                treatments = _treatmentService.GetTreatmentsOfAnimal(animalId.Value);
+            }
+            else
+            {
+                treatments = _treatmentService.GetAll();
+            }
+            return View(treatments);
         }
 
         // GET: TreatmentController/Details/5

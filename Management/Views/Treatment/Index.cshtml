@@ -3,7 +3,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Treatments</h1>
+@if (!string.IsNullOrEmpty(ViewBag.AnimalName))
+{
+    <h1>Treatments of @ViewBag.AnimalName</h1>
+}
+else
+{
+    <h1>Treatments</h1>
+}
 
 <p>
     <a asp-action="Create">Create New</a>

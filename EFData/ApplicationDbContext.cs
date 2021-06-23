@@ -16,6 +16,8 @@ namespace EFData
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<AnimalTreatment> AnimalTreatments { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
