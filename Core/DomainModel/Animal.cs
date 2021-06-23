@@ -24,7 +24,7 @@ namespace Core.DomainModel
         public int Age { get; set; }
 
         [Display(Name = "Estimated age")]
-        public int EstimatedAge { get; set; }
+        public int? EstimatedAge { get; set; }
 
         [Required]
         public string Description { get; set; }

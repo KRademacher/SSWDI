@@ -1,4 +1,5 @@
 ﻿using Core.DomainModel;
+using Core.Enums;
 using DomainServices.Repositories;
 using DomainServices.Services;
 using System;
@@ -30,13 +31,26 @@ namespace Services
             try
             {
                 var animal = GetByID(treatment.AnimalID);
-                if (animal.DateOfPassing != null && animal.DateOfPassing.Value > treatment.PerformDate)
+                if (animal.DateOfPassing != null && animal.DateOfPassing.Value < treatment.PerformDate)
                 {
                     throw new InvalidOperationException("Cannot perform treatment on dead animal.");
                 }
                 if (animal.LodgingID == null)
                 {
                     throw new InvalidOperationException("Cannot add treatment to animal not in lodging.");
+                }
+                if (((treatment.TreatmentType &
+                    (TreatmentType.Euthanasia |
+                    TreatmentType.Surgery |
+                    TreatmentType.Vaccination |
+                    TreatmentType.Chipping)) != 0) &&
+                    string.IsNullOrWhiteSpace(treatment.Description))
+                {
+                    if (treatment.TreatmentType.HasFlag(TreatmentType.Chipping))
+                    {
+                        throw new InvalidOperationException("Entering GUID is required with chipping.");
+                    }
+                    throw new InvalidOperationException("Description is required with this treatment.");
                 }
 
                 animal.Treatments.Add(treatment);
@@ -186,28 +200,33 @@ namespace Services
             return fileName;
         }
 
-        private int CalculateAnimalAge(Animal animal)
+        public int CalculateAnimalAge(Animal animal)
         {
             // Throw error if animal's age is below 0 for whatever reason
-            if (animal.Age < 0)
+            if (animal.Age < 0 || animal.EstimatedAge < 0)
             {
                 throw new InvalidOperationException("Age can't be less than 0.");
             }
 
+            if (animal.EstimatedAge == null && animal.DateOfBirth == null)
+            {
+                throw new InvalidOperationException("Either the estimated age or the date of birth has to be filled in.");
+            }
+
             // Throw error if both date of birth and estimated age are filled in
-            if (animal.EstimatedAge != 0 && animal.DateOfBirth != null)
+            if (animal.EstimatedAge != null && animal.DateOfBirth != null)
             {
                 throw new InvalidOperationException("Animal can't have both an estimated age and an actual age.");
             }
 
             // If estimated age has a value but date of birth doesn't, return estimated age
-            if (animal.EstimatedAge != 0 && animal.DateOfBirth == null)
+            if (animal.EstimatedAge != null && animal.DateOfBirth == null)
             {
-                return animal.EstimatedAge;
+                return animal.EstimatedAge.Value;
             }
 
             // If date of birth has a value but estimate age doesn't calculate age based on date of birth
-            if (animal.DateOfBirth != null && animal.EstimatedAge == 0)
+            if (animal.DateOfBirth != null && animal.EstimatedAge == null)
             {
                 //Calculate the age of the animal
                 var today = DateTime.Today;
