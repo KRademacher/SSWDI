@@ -112,22 +112,52 @@ namespace Management.Controllers
         }
 
         [HttpGet]
-        public IActionResult PlaceAnimal(int id)
+        public IActionResult PlaceAnimalInLodging(int id)
         {
             var animal = _animalService.GetByID(id);
             var viewModel = new AnimalViewModel()
             {
                 Animal = animal,
                 AnimalType = animal.AnimalType,
+                AllLodgings = _lodgingService.GetAll().ToList(),
                 AvailableLodgings = _lodgingService.GetCompatibleLodgings(id).ToList()
             };
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult PlaceAnimal(AnimalViewModel viewModel)
+        public IActionResult PlaceAnimalInLodging(AnimalViewModel viewModel)
         {
-            _lodgingService.AddAnimalToLodge(viewModel.Lodge, viewModel.Animal);
+            var animal = _animalService.GetByID(viewModel.Animal.ID);
+            var lodge = _lodgingService.GetByID(viewModel.Lodging.ID);
+            // Check if the lodge isn't the same. If it is, nothing needs to happen
+            if (animal.LodgingID.Value != lodge.ID)
+            {
+                _lodgingService.AddAnimalToLodge(lodge, animal);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult RemoveAnimalFromLodge(int id)
+        {
+            var animal = _animalService.GetByID(id);
+            var lodge = _lodgingService.GetByID(animal.LodgingID.Value);
+            var viewModel = new AnimalViewModel()
+            {
+                Animal = animal,
+                AnimalType = animal.AnimalType,
+                Lodging = lodge
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveAnimalFromLodge(AnimalViewModel viewModel)
+        {
+            var animal = _animalService.GetByID(viewModel.Animal.ID);
+            var lodge = _lodgingService.GetByID(viewModel.Lodging.ID);
+            _lodgingService.RemoveAnimalFromLodge(lodge, animal);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -1,0 +1,116 @@
+﻿@model Lodging
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Lodging</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.LodgingType)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.LodgingType)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.AnimalType)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.AnimalType)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.MaxCapacity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MaxCapacity)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.CurrentCapacity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CurrentCapacity)
+        </dd>
+    </dl>
+</div>
+@if (Model.LodgingAnimals.Count > 0)
+{
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Age)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().AnimalType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Breed)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().Picture)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LodgingAnimals.First().DateOfArrival)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LodgingAnimals)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnimalType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Breed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        <img src="@("~/images/" + item.ImageName)" asp-append-version="true"
+                                style="max-height: 200px; max-width: 200px;" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfArrival)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.ID">Delete</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

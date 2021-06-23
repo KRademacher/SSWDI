@@ -9,7 +9,7 @@ namespace DomainServices.Services
     {
         IEnumerable<Animal> GetAllAvailableAnimals();
         void AddComment(Animal animal, Comment comment);
-        void AddTreatment(Animal animal, Treatment treatment);
+        void AddTreatment(Animal animal, AnimalTreatment treatment);
         Task<string> UploadImage(Animal animal, string wwwRootPath);
         void RemoveImage(Animal animal, string wwwRootPath);
     }

@@ -42,15 +42,25 @@ namespace EFData
                 .WithMany(c => c.AnimalsInterestedIn)
                 .HasForeignKey(ia => ia.CustomerID);
 
-            // Each animal can have multiple comments and treatments.
+            modelBuilder.Entity<AnimalTreatment>(animalTreatment =>
+            {
+                animalTreatment
+                    .HasKey(at => new { at.AnimalID, at.TreatmentID });
+                animalTreatment
+                    .HasOne(at => at.Animal)
+                    .WithMany(a => a.Treatments)
+                    .HasForeignKey(at => at.AnimalID);
+                animalTreatment
+                    .HasOne(at => at.Treatment)
+                    .WithMany(t => t.AnimalTreatments)
+                    .HasForeignKey(at => at.TreatmentID);
+            });
+
             modelBuilder.Entity<Animal>(animal =>
             {
-                animal.HasMany(a => a.Comments)
-                    .WithOne(c => c.CommentedOn)
-                    .OnDelete(DeleteBehavior.Cascade);
-                animal.HasMany(a => a.Treatments)
-                    .WithOne(t => t.PerformedOn)
-                    .OnDelete(DeleteBehavior.Cascade);
+                // Each animal can have multiple comments.
+                animal.OwnsMany(a => a.Comments)
+                    .HasOne(c => c.CommentedOn);
                 // A customer can adopt multiple animals, but an animal can only be adopted once.
                 animal.HasOne(a => a.AdoptedBy)
                     .WithMany(c => c.AdoptedAnimals)

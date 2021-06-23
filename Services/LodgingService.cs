@@ -4,6 +4,7 @@ using DomainServices.Repositories;
 using DomainServices.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Services
@@ -21,15 +22,25 @@ namespace Services
 
         public void AddAnimalToLodge(Lodging lodging, Animal animal)
         {
-            if (lodging.CurrentCapacity + 1 > lodging.MaxCapacity)
+            // If animal is already in a lodge
+            if (animal.LodgingID != null)
+            {
+                RemoveAnimalFromLodge(lodging, animal);
+            }
+            if (lodging.CurrentCapacity + 1 <= lodging.MaxCapacity)
             {
                 lodging.LodgingAnimals.Add(animal);
                 lodging.CurrentCapacity++;
+                animal.LodgingID = lodging.ID;
+
+                _lodgingRepository.Update(lodging);
+                _animalRepository.Update(animal);
             }
         }
 
         public void Create(Lodging lodging)
         {
+            lodging.CurrentCapacity = 0;
             _lodgingRepository.Create(lodging);
         }
 
@@ -51,7 +62,9 @@ namespace Services
 
         public Lodging GetByID(int id)
         {
-            return _lodgingRepository.GetByID(id);
+            var lodging = _lodgingRepository.GetByID(id);
+            lodging.LodgingAnimals = _animalRepository.GetAll().Where(a => a.LodgingID == lodging.ID).ToList();
+            return lodging;
         }
 
         public IEnumerable<Lodging> GetCompatibleLodgings(int animalId)
@@ -95,6 +108,10 @@ namespace Services
             {
                 lodging.LodgingAnimals.Remove(animal);
                 lodging.CurrentCapacity--;
+                animal.LodgingID = null;
+
+                _lodgingRepository.Update(lodging);
+                _animalRepository.Update(animal);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using Core.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,15 +21,6 @@ namespace Core.DomainModel
 
         public int MinimumAge { get; set; }
 
-        [Required]
-        public string PerformedBy { get; set; }
-
-        [Required]
-        public DateTime PerformDate { get; set; }
-
-        public int AnimalID { get; set; }
-
-        [ForeignKey("AnimalID")]
-        public Animal PerformedOn { get; set; }
+        public List<AnimalTreatment> AnimalTreatments { get; set; } = new List<AnimalTreatment>();
     }
 }

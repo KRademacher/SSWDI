@@ -21,11 +21,13 @@ namespace Services
         public void AddComment(Animal animal, Comment comment)
         {
             animal.Comments.Add(comment);
+            _animalRepository.Update(animal);
         }
 
-        public void AddTreatment(Animal animal, Treatment treatment)
+        public void AddTreatment(Animal animal, AnimalTreatment treatment)
         {
             animal.Treatments.Add(treatment);
+            _animalRepository.Update(animal);
         }
 
         public void Create(Animal animal)

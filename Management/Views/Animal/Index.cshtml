@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Animals</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -42,7 +42,7 @@
     <tbody>
         @foreach(var item in Model)
         {
-            <tr>
+            <tr style="cursor: pointer" onclick="location.href = '@(Url.Action("Details", "Animal", new { id = item.ID }))'">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -69,14 +69,12 @@
                     @Html.DisplayFor(modelItem => item.DateOfArrival)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="PlaceAnimal" asp-route-id="@item.ID">Place Animal</a> |
+                    <a asp-action="PlaceAnimalInLodging" asp-route-id="@item.ID">Place Animal</a> |
+                    <a asp-action="RemoveAnimalFromLodge" asp-route-id="@item.ID">Remove Animal</a><br />
                     @Html.ActionLink("Comments", "Index", "Comment", new { animalId = item.ID }, null) |
-                    @Html.ActionLink("Place comment", "Create", "Comment", new { animalId = item.ID }, null) |
+                    @Html.ActionLink("Place comment", "Create", "Comment", new { animalId = item.ID }, null)<br />
                     @Html.ActionLink("Treatments", "Index", "Treatment", new { animalId = item.ID }, null) |
-                    @Html.ActionLink("Add treatment", "Create", "Treatment", new { animalId = item.ID }, null) |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    @Html.ActionLink("Add treatment", "Create", "Treatment", new { animalId = item.ID }, null)
                 </td>
             </tr>
         }

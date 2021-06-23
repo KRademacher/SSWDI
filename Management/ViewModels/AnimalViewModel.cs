@@ -10,7 +10,9 @@ namespace Management.ViewModels
 
         public AnimalType AnimalType { get; set; }
 
-        public Lodging Lodge { get; set; }
+        public Lodging Lodging { get; set; }
+
+        public List<Lodging> AllLodgings { get; set; }
 
         public List<Lodging> AvailableLodgings { get; set; }
     }

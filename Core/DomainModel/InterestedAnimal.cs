@@ -1,13 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Core.DomainModel
+﻿namespace Core.DomainModel
 {
     public class InterestedAnimal
     {
-        [Key]
-        [Required]
-        public int ID { get; set; }
-
         public int AnimalID { get; set; }
         public Animal Animal { get; set; }
 
