@@ -101,7 +101,7 @@ namespace Services
 
         public IEnumerable<Animal> GetAllAvailableAnimals()
         {
-            return _animalRepository.GetAll().Where(a => a.DateOfPassing == null).ToList();
+            return _animalRepository.GetAllAvailableAnimals();
         }
 
         public Animal GetByID(int id)

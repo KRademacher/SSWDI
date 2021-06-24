@@ -7,7 +7,6 @@ namespace DomainServices.Services
 {
     public interface IAnimalService : IAnimalRepository
     {
-        IEnumerable<Animal> GetAllAvailableAnimals();
         void AddComment(Comment comment);
         IEnumerable<Treatment> GetTreatments(int id);
         void AddTreatment(Treatment treatment);

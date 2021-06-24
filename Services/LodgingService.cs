@@ -65,8 +65,7 @@ namespace Services
 
         public IEnumerable<Animal> GetAnimalsInLodge(int id)
         {
-            var lodge = GetByID(id);
-            return lodge.LodgingAnimals;
+            return _lodgingRepository.GetAnimalsInLodge(id);
         }
 
         public Lodging GetByID(int id)

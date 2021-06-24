@@ -1,5 +1,6 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EFData
@@ -14,6 +15,11 @@ namespace EFData
         {
             _dbContext.Lodgings.Remove(lodging);
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Animal> GetAnimalsInLodge(int id)
+        {
+            return GetByID(id).LodgingAnimals;
         }
 
         public void Update(Lodging lodging)

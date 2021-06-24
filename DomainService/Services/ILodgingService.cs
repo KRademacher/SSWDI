@@ -8,7 +8,6 @@ namespace DomainServices.Services
     {
         void AddAnimalToLodge(Lodging lodging, Animal animal);
         void RemoveAnimalFromLodge(Lodging lodging, Animal animal);
-        IEnumerable<Animal> GetAnimalsInLodge(int id);
         IEnumerable<Lodging> GetCompatibleLodgings(int animalId);
     }
 }
