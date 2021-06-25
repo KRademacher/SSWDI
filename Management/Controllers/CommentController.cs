@@ -2,7 +2,6 @@
 using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Security.Claims;
 
 namespace Management.Controllers
@@ -24,14 +23,6 @@ namespace Management.Controllers
             var animal = _animalService.GetByID(animalId);
             ViewBag.Animal = animal.Name;
             return View(animal.Comments);
-        }
-
-        // GET: CommentController/Details/5
-        public IActionResult Details(int id, int animalId)
-        {
-            var animal = _animalService.GetByID(animalId);
-            var comment = animal.Comments.FirstOrDefault(c => c.ID == id);
-            return View(comment);
         }
 
         // GET: CommentController/Create
@@ -59,12 +50,6 @@ namespace Management.Controllers
                 return RedirectToAction(nameof(Index), "Animal");
             }
             return View(comment);
-        }
-
-        // GET: CommentController/Delete/5
-        public IActionResult Delete(int id)
-        {
-            return View();
         }
     }
 }

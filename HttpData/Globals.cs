@@ -7,8 +7,8 @@ namespace HttpData
 {
     public static class Globals
     {
-        //public const string ApiBaseUrl = "https://localhost:44315";
-        public const string ApiBaseUrl = "https://animalshelterwebservice.azurewebsites.net";
+        public const string ApiBaseUrl = "https://localhost:44315";
+        //public const string ApiBaseUrl = "https://animalshelterwebservice.azurewebsites.net";
 
         /// <summary>
         /// Generic method for making HTTP GET requests.

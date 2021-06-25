@@ -1,14 +1,12 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
 using DomainServices.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebService.Controllers
 {
     [ApiController]
     [Route("/api/interest")]
-    [Authorize(Policy = "RequireVolunteerOrCustomer")]
     public class InterestedAnimalController : Controller
     {
         private readonly IAnimalRepository _animalRepository;
@@ -24,9 +22,15 @@ namespace WebService.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        public IActionResult GetAll(int id)
         {
             return Ok(_interestedAnimalRepository.GetAll(id));
+        }
+
+        [HttpGet("{customerId:int}/{animalId:int}")]
+        public IActionResult Get(int customerId, int animalId)
+        {
+            return Ok(_interestedAnimalRepository.Get(customerId, animalId));
         }
 
         [HttpPost]

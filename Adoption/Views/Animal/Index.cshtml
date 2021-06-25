@@ -34,7 +34,9 @@
         <a asp-action="Index">Clear filter</a>
     </div>
 </form>
-
+<p class="text-danger">
+    @TempData["Error"]
+</p>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -71,7 +73,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+        <tr style="cursor: pointer" onclick="location.href = '@(Url.Action("Details", "Animal", new { id = item.ID }))'">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

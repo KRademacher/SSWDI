@@ -1,6 +1,5 @@
 ﻿using Core.DomainModel;
 using DomainServices.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebService.Controllers
@@ -29,7 +28,6 @@ namespace WebService.Controllers
             return Ok(animal);
         }
 
-        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [HttpPost]
         public IActionResult Create([FromBody] Animal animal)
         {
@@ -37,7 +35,6 @@ namespace WebService.Controllers
             return Ok(animal);
         }
 
-        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody] Animal animal)
         {

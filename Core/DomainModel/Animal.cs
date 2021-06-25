@@ -7,6 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.DomainModel
 {
+    /// <summary>
+    /// POCO for animal
+    /// </summary>
     public class Animal
     {
         [Key]

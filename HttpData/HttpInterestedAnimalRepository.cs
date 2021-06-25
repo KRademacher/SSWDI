@@ -62,6 +62,24 @@ namespace HttpData
             }
         }
 
+        public InterestedAnimal Get(int customerId, int animalId)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                try
+                {
+                    using HttpResponseMessage response = httpClient.GetAsync(Globals.ApiBaseUrl + $"/api/interest/{customerId}/{animalId}").Result;
+                    response.EnsureSuccessStatusCode();
+                    string apiResponse = response.Content.ReadAsStringAsync().Result;
+                    return JsonConvert.DeserializeObject<InterestedAnimal>(apiResponse);
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public IEnumerable<Animal> GetAll(int customerId)
         {
             using (var httpClient = new HttpClient())

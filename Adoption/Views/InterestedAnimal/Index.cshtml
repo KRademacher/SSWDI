@@ -13,14 +13,14 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Remove interest?
             </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="cursor: pointer" onclick="location.href = '@(Url.Action("Details", "Animal", new { id = item.ID }))'">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

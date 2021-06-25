@@ -1,0 +1,78 @@
+﻿@model Core.DomainModel.Animal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Animal</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.AnimalType)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.AnimalType)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Breed)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Breed)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Picture)
+        </dt>
+        <dd class="col-sm-8">
+            <img src="@Model.PictureData"
+                 style="max-height: 200px; max-width: 200px;" />
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ImageName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ImageName)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.IsNeutered)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.IsNeutered)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.IsChildFriendly)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.IsChildFriendly)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -9,6 +9,8 @@ namespace DomainServices.Repositories
 
         void Delete(Animal animal, Customer customer);
 
+        InterestedAnimal Get(int customerId, int animalId);
+
         IEnumerable<Animal> GetAll(int customerId);
     }
 }

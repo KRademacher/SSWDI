@@ -86,5 +86,16 @@ namespace Adoption.Controllers
             }
             return View(animal);
         }
+
+        public IActionResult Details(int id)
+        {
+            var animal = _animalRepository.GetByID(id);
+            if (animal.Picture != null)
+            {
+                string pictureBase64Data = Convert.ToBase64String(animal.Picture);
+                animal.PictureData = string.Format("data:/image/jpg;base64,{0}", pictureBase64Data);
+            }
+            return View(animal);
+        }
     }
 }

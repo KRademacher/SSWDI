@@ -36,9 +36,15 @@ namespace EFData
             _dbContext.SaveChanges();
         }
 
+        public InterestedAnimal Get(int customerId, int animalId)
+        {
+            return _dbContext.InterestedAnimals.First(ia => 
+                ia.CustomerID == customerId && ia.AnimalID == animalId);
+        }
+
         public IEnumerable<Animal> GetAll(int customerId)
         {
-            var interestedAnimals = _dbContext.InterestedAnimals.ToList().Where(c => c.CustomerID == customerId);
+            var interestedAnimals = _dbContext.InterestedAnimals.Where(c => c.CustomerID == customerId);
             List<Animal> animals = new List<Animal>();
             foreach (var item in interestedAnimals)
             {

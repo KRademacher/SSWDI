@@ -6,6 +6,7 @@ using System;
 
 namespace Adoption.Controllers
 {
+    [Authorize(Policy = "RequireVolunteerOrCustomer")]
     public class InterestedAnimalController : Controller
     {
         private readonly IAnimalRepository _animalRepository;
@@ -27,12 +28,16 @@ namespace Adoption.Controllers
             return View(_interestedAnimalRepository.GetAll(customer.ID));
         }
 
-        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [Route("InterestedAnimal/Create/{animalId:int}")]
         public IActionResult Create(int animalId)
         {
             var customer = _userService.FindCustomerByUserName(User.Identity.Name);
             var animal = _animalRepository.GetByID(animalId);
+            if (_interestedAnimalRepository.Get(customer.ID, animal.ID) != null)
+            {
+                TempData["Error"] = "You've already shown interest to this animal.";
+                return RedirectToAction(nameof(Index), "Animal");
+            }
             try
             {
                 _interestedAnimalRepository.Create(animal, customer);
@@ -44,7 +49,6 @@ namespace Adoption.Controllers
             }
         }
 
-        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [Route("InterestedAnimal/Delete/{animalId:int}")]
         public IActionResult Delete(int animalId)
         {
