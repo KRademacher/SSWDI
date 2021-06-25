@@ -70,6 +70,13 @@ namespace Management.Controllers
                     ModelState.AddModelError(nameof(treatment.Description), "Description is required with this treatment.");
                 }
             }
+            if (treatment.TreatmentType == TreatmentType.Castration)
+            {
+                if (treatment.MinimumAge < 6)
+                {
+                    ModelState.AddModelError(nameof(treatment.MinimumAge), "Castration can only be done when the animal is older than 6 months.");
+                }
+            }
             if (ModelState.IsValid)
             {
                 _animalService.AddTreatment(treatment);
