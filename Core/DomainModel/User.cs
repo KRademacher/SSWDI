@@ -5,8 +5,8 @@ namespace Core.DomainModel
 {
     public abstract class User
     {
-        [Required]
         [Key]
+        [Required]
         public int ID { get; set; }
 
         [Required]

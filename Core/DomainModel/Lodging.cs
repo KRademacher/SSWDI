@@ -6,8 +6,8 @@ namespace Core.DomainModel
 {
     public class Lodging
     {
-        [Required]
         [Key]
+        [Required]
         public int ID { get; set; }
 
         public string Description { get; set; }

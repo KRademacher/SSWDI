@@ -3,13 +3,10 @@ using Core.Enums;
 using DomainServices.Repositories;
 using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Adoption.Controllers
 {

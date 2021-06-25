@@ -1,7 +1,6 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DomainServices.Services
 {

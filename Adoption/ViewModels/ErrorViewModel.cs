@@ -1,5 +1,3 @@
-using System;
-
 namespace Adoption.ViewModels
 {
     public class ErrorViewModel
