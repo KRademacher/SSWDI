@@ -1,6 +1,7 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
 using DomainServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace WebService.Controllers
 {
     [ApiController]
     [Route("/api/interest")]
+    [Authorize(Policy = "RequireVolunteerOrCustomer")]
     public class InterestedAnimalController : Controller
     {
         private readonly IAnimalRepository _animalRepository;

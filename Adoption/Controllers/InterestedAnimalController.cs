@@ -1,5 +1,6 @@
 ﻿using DomainServices.Repositories;
 using DomainServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace Adoption.Controllers
             return View(_interestedAnimalRepository.GetAll(customer.ID));
         }
 
+        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [Route("InterestedAnimal/Create/{animalId:int}")]
         public IActionResult Create(int animalId)
         {
@@ -45,6 +47,7 @@ namespace Adoption.Controllers
             }
         }
 
+        [Authorize(Policy = "RequireVolunteerOrCustomer")]
         [Route("InterestedAnimal/Delete/{animalId:int}")]
         public IActionResult Delete(int animalId)
         {

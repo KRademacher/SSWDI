@@ -2,6 +2,7 @@
 using Core.Enums;
 using DomainServices.Services;
 using Management.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Management.Controllers
 {
+    [Authorize(Policy = "RequireVolunteer")]
     public class TreatmentController : Controller
     {
         private readonly IAnimalService _animalService;

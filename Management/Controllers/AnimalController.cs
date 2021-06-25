@@ -56,7 +56,7 @@ namespace Management.Controllers
         {
             Animal animal = new Animal()
             {
-                DateOfAdoption = DateTime.Now
+                DateOfArrival = DateTime.Now
             };
             return View(animal);
         }

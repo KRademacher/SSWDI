@@ -1,5 +1,6 @@
 ﻿using Core.DomainModel;
 using DomainServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Management.Controllers
 {
+    [Authorize(Policy = "RequireVolunteer")]
     public class CommentController : Controller
     {
         private readonly IAnimalService _animalService;

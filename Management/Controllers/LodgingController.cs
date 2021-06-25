@@ -1,9 +1,11 @@
 ﻿using Core.DomainModel;
 using DomainServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Management.Controllers
 {
+    [Authorize(Policy = "RequireVolunteer")]
     public class LodgingController : Controller
     {
         private readonly ILodgingService _lodgingService;
