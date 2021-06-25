@@ -3,6 +3,7 @@ using Core.DomainModel;
 using DomainServices.Repositories;
 using DomainServices.Services;
 using EFData;
+using HttpData;
 using Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +68,7 @@ namespace Adoption
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.AddTransient<IAnimalRepository, HttpAnimalRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
             services.AddScoped<IUserService, UserService>();

@@ -19,7 +19,7 @@ namespace EFData
 
         public IEnumerable<Animal> GetAllAvailableAnimals()
         {
-            return GetAll().Where(a => a.DateOfPassing == null).ToList();
+            return GetAll().Where(a => a.DateOfPassing == null && a.Adoptable == true).ToList();
         }
 
         public void Update(Animal animal)

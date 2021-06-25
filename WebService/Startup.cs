@@ -1,3 +1,5 @@
+using DomainServices.Repositories;
+using DomainServices.Services;
 using EFData;
 using Identity;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +62,12 @@ namespace WebService
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
             services.AddMvc();
             services.AddSwaggerGen();
+
+            // Repositories Dependency Injections
+            services.AddTransient<IAnimalRepository, EFAnimalRepository>();
+
+            // Services Dependency Injections
+            services.AddTransient<IAnimalService, AnimalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

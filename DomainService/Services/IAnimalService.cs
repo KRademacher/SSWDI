@@ -13,7 +13,5 @@ namespace DomainServices.Services
         void UpdateTreatment(Treatment treatment);
         void DeleteTreatment(Treatment treatment);
         IEnumerable<Comment> GetComments(int id);
-        Task<string> UploadImage(Animal animal, string wwwRootPath);
-        void RemoveImage(Animal animal, string wwwRootPath);
     }
 }

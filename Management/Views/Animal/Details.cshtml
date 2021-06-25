@@ -62,8 +62,7 @@
             @Html.DisplayNameFor(model => model.Picture)
         </dt>
         <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Picture)
-            <img src="@("~/images/" + Model.ImageName)" asp-append-version="true"
+            <img src="@Model.PictureData"
                  style="max-height: 200px; max-width: 200px;" />
         </dd>
         <dt class = "col-sm-4">

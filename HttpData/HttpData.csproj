@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainServicesHttp\DomainServicesHttp.csproj" />
+    <ProjectReference Include="..\DomainService\DomainServices.csproj" />
   </ItemGroup>
 
 </Project>

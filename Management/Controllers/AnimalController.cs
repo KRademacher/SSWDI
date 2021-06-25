@@ -39,6 +39,11 @@ namespace Management.Controllers
         public IActionResult Details(int id)
         {
             var animal = _animalService.GetByID(id);
+            if (animal.Picture != null)
+            {
+                string pictureBase64Data = Convert.ToBase64String(animal.Picture);
+                animal.PictureData = string.Format("data:/image/jpg;base64,{0}", pictureBase64Data);
+            }
             return View(animal);
         }
 
@@ -55,12 +60,6 @@ namespace Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (animal.ImageFile != null)
-                {
-                    // We need the wwwRootPath which is relative to the project, not the specific service.
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    animal.ImageName = await _animalService.UploadImage(animal, wwwRootPath);
-                }
                 _animalService.Create(animal);
                 return RedirectToAction(nameof(Index));
             }
@@ -81,13 +80,6 @@ namespace Management.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (animal.ImageFile != null)
-                {
-                    // We need the wwwRootPath which is relative to the project, not the specific service.
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    _animalService.RemoveImage(animal, wwwRootPath);
-                    animal.ImageName = await _animalService.UploadImage(animal, wwwRootPath);
-                }
                 _animalService.Update(animal);
                 return RedirectToAction(nameof(Index));
             }
@@ -106,8 +98,6 @@ namespace Management.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(Animal animal)
         {
-            string wwwRootPath = _hostEnvironment.WebRootPath;
-            _animalService.RemoveImage(animal, wwwRootPath);
             _animalService.Delete(animal);
             return RedirectToAction(nameof(Index));
         }

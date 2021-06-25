@@ -38,14 +38,14 @@ namespace Core.DomainModel
         [Required]
         public Gender Gender { get; set; }
 
-        public string Picture { get; set; }
+        public byte[] Picture { get; set; }
 
         public string ImageName { get; set; }
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [Display(Name = "Arrival date")]
-        public DateTime DateOfArrival { get; set; }
+        public DateTime? DateOfArrival { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [Display(Name = "Adoption date")]
@@ -68,7 +68,7 @@ namespace Core.DomainModel
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
         [Required]
-        [Display(Name = "Why was the animal put up for adoption?")]
+        [Display(Name = "Reason for putting it up for adoption?")]
         public string LeavingReason { get; set; }
 
         [Required]
@@ -89,5 +89,8 @@ namespace Core.DomainModel
 
         [NotMapped]
         public IFormFile ImageFile { get; set; }
+
+        [NotMapped]
+        public string PictureData { get; set; }
     }
 }

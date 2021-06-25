@@ -66,6 +66,12 @@ namespace Services
         {
             try
             {
+                if (animal.ImageFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    animal.ImageFile.CopyTo(stream);
+                    animal.Picture = stream.ToArray();
+                }
                 animal.Age = CalculateAnimalAge(animal);
                 if (animal.Age == -1)
                 {
@@ -96,17 +102,23 @@ namespace Services
 
         public IEnumerable<Animal> GetAll()
         {
-            return _animalRepository.GetAll();
+            var animals = _animalRepository.GetAll().ToList();
+            animals.ForEach(a => GetDataFromPicture(a));
+            return animals;
         }
 
         public IEnumerable<Animal> GetAllAvailableAnimals()
         {
-            return _animalRepository.GetAllAvailableAnimals();
+            var animals = _animalRepository.GetAllAvailableAnimals().ToList();
+            animals.ForEach(a => GetDataFromPicture(a));
+            return animals;
         }
 
         public Animal GetByID(int id)
         {
-            return _animalRepository.GetByID(id);
+            var animal = _animalRepository.GetByID(id);
+            GetDataFromPicture(animal);
+            return animal;
         }
 
         public IEnumerable<Comment> GetComments(int id)
@@ -121,22 +133,16 @@ namespace Services
             return animal.Treatments;
         }
 
-        public void RemoveImage(Animal animal, string wwwRootPath)
-        {
-            if (animal.ImageName != null)
-            {
-                var imagePath = Path.Combine(wwwRootPath, "images", animal.ImageName);
-                if (File.Exists(imagePath))
-                {
-                    File.Delete(imagePath);
-                }
-            }
-        }
-
         public void Update(Animal animal)
         {
             try
             {
+                if (animal.ImageFile != null)
+                {
+                    MemoryStream stream = new MemoryStream();
+                    animal.ImageFile.CopyTo(stream);
+                    animal.Picture = stream.ToArray();
+                }
                 animal.Age = CalculateAnimalAge(animal);
                 if (animal.Age == -1)
                 {
@@ -184,22 +190,6 @@ namespace Services
             }
         }
 
-        public async Task<string> UploadImage(Animal animal, string wwwRootPath)
-        {
-            string fileName = Path.GetFileNameWithoutExtension(animal.ImageFile.FileName);
-            string extension = Path.GetExtension(animal.ImageFile.FileName);
-            // Make filename unique
-            fileName = fileName + DateTime.Now.ToString("yyMMdd_HHmmss") + extension;
-            animal.ImageName = fileName;
-
-            string path = Path.Combine(wwwRootPath + "/images", fileName);
-            using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await animal.ImageFile.CopyToAsync(fileStream);
-            }
-            return fileName;
-        }
-
         public int CalculateAnimalAge(Animal animal)
         {
             // Throw error if animal's age is below 0 for whatever reason
@@ -241,6 +231,15 @@ namespace Services
             }
             // return -1 to catch any errors and bugs
             return -1;
+        }
+
+        private void GetDataFromPicture(Animal animal)
+        {
+            if (animal.Picture != null)
+            {
+                string pictureBase64Data = Convert.ToBase64String(animal.Picture);
+                animal.PictureData = string.Format("data:/image/jpg;base64,{0}", pictureBase64Data);
+            }
         }
     }
 }

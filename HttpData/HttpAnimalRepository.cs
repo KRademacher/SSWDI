@@ -1,35 +1,28 @@
 ﻿using Core.DomainModel;
-using DomainServicesHttp.Repositories;
+using DomainServices.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace HttpData
 {
-    public class HttpAnimalRepository : IAnimalHttpRepository
+    public class HttpAnimalRepository : IAnimalRepository
     {
         private readonly string apiBaseUrl = "https://localhost:44315";
 
-        public async Task<Animal> Add(Animal animal)
+        public void Create(Animal animal)
         {
             try
             {
-                Animal receivedAnimal = new Animal();
-
                 using (var httpClient = new HttpClient())
                 {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(animal), Encoding.UTF8, "application/json");
-
-                    using HttpResponseMessage response = await httpClient.PostAsync(apiBaseUrl + "/api/animal", content);
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    receivedAnimal = JsonConvert.DeserializeObject<Animal>(apiResponse);
+                    var json = JsonConvert.SerializeObject(animal);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                    using HttpResponseMessage response = httpClient.PostAsync(apiBaseUrl + "/api/animal", content).Result;
+                    response.EnsureSuccessStatusCode();
                 }
-                return receivedAnimal;
             }
             catch (Exception e)
             {
@@ -37,67 +30,53 @@ namespace HttpData
             }
         }
 
-        public async Task<IEnumerable<Animal>> GetAll()
+        public void Delete(Animal animal)
+        {
+            throw new InvalidOperationException("Delete operation not permitted.");
+        }
+
+        public IEnumerable<Animal> GetAll()
         {
             List<Animal> animals = new List<Animal>();
 
             using (var httpClient = new HttpClient())
             {
-                using HttpResponseMessage response = await httpClient.GetAsync(apiBaseUrl + "/api/animal");
-                string apiResponse = await response.Content.ReadAsStringAsync();
+                using HttpResponseMessage response = httpClient.GetAsync(apiBaseUrl + "/api/animal").Result;
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
                 animals = JsonConvert.DeserializeObject<List<Animal>>(apiResponse);
             }
-
             return animals;
         }
 
-        public async Task<IEnumerable<Animal>> GetAvailableAnimals()
+        public IEnumerable<Animal> GetAllAvailableAnimals()
         {
             List<Animal> animals = new List<Animal>();
 
             using (var httpClient = new HttpClient())
             {
-                using HttpResponseMessage response = await httpClient.GetAsync(apiBaseUrl + "/api/animal/available");
-                string apiResponse = await response.Content.ReadAsStringAsync();
+                using HttpResponseMessage response = httpClient.GetAsync(apiBaseUrl + "/api/animal").Result;
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
                 animals = JsonConvert.DeserializeObject<List<Animal>>(apiResponse);
             }
-
             return animals;
         }
 
-        public async Task<Animal> GetByID(int id)
+        public Animal GetByID(int id)
         {
             Animal animal = new Animal();
 
             using (var httpClient = new HttpClient())
             {
-                using HttpResponseMessage response = await httpClient.GetAsync(apiBaseUrl + "/api/animal/" + id);
-                string apiResponse = await response.Content.ReadAsStringAsync();
+                using HttpResponseMessage response = httpClient.GetAsync(apiBaseUrl + "/api/animal/" + id).Result;
+                string apiResponse = response.Content.ReadAsStringAsync().Result;
                 animal = JsonConvert.DeserializeObject<Animal>(apiResponse);
             }
             return animal;
         }
 
-        public async Task<IEnumerable<Animal>> GetInterestedAnimals(ClaimsPrincipal user)
+        public void Update(Animal animal)
         {
-            List<Animal> animals = new List<Animal>();
-
-            using (var httpClient = new HttpClient())
-            {
-                // TODO: Find cleaner way to do this
-                var builder = new UriBuilder(apiBaseUrl + "/api/animal");
-                var query = HttpUtility.ParseQueryString(builder.Query);
-                query["User"] = user.Identity.Name;
-                builder.Query = query.ToString();
-                string url = builder.ToString();
-
-                using (var response = await httpClient.GetAsync(url))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    animals = JsonConvert.DeserializeObject<List<Animal>>(apiResponse);
-                }
-            }
-            return animals;
+            throw new InvalidOperationException("Update operation not permitted.");
         }
     }
 }

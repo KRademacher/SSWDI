@@ -23,13 +23,20 @@ namespace WebService.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_animalService.GetAll());
+            return Ok(_animalService.GetAllAvailableAnimals());
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
             Animal animal = _animalService.GetByID(id);
+            return Ok(animal);
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] Animal animal)
+        {
+            _animalService.Create(animal);
             return Ok(animal);
         }
     }
