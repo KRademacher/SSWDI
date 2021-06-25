@@ -21,7 +21,7 @@ namespace Core.DomainModel
         public DateTime? DateOfBirth { get; set; }
 
         [Required]
-        public int Age { get; set; }
+        public double Age { get; set; }
 
         [Display(Name = "Estimated age")]
         public int? EstimatedAge { get; set; }

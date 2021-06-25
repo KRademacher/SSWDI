@@ -70,9 +70,10 @@ namespace Management.Controllers
                     ModelState.AddModelError(nameof(treatment.Description), "Description is required with this treatment.");
                 }
             }
-            if (treatment.TreatmentType == TreatmentType.Castration)
+            else
             {
-                if (treatment.MinimumAge < 6)
+                Animal animal = _animalService.GetByID(treatment.AnimalID);
+                if (treatment.MinimumAge < 6 || animal.Age < 0.5f)
                 {
                     ModelState.AddModelError(nameof(treatment.MinimumAge), "Castration can only be done when the animal is older than 6 months.");
                 }
@@ -88,7 +89,6 @@ namespace Management.Controllers
         [Route("Animal/{animalId:int}/Treatment/Edit/{id:int}")]
         public IActionResult Edit(int id, int animalId)
         {
-
             ViewBag.AnimalId = animalId;
             var animal = _animalService.GetByID(animalId);
             var treatment = animal.Treatments.FirstOrDefault(t => t.ID == id);
@@ -100,6 +100,7 @@ namespace Management.Controllers
         [Route("Animal/{animalId:int}/Treatment/Edit/{id:int}")]
         public IActionResult Edit(Treatment treatment)
         {
+            ViewBag.AnimalId = treatment.AnimalID;
             if (treatment.TreatmentType == TreatmentType.Euthanasia ||
                 treatment.TreatmentType == TreatmentType.Surgery ||
                 treatment.TreatmentType == TreatmentType.Vaccination ||
@@ -113,6 +114,14 @@ namespace Management.Controllers
                 if (string.IsNullOrWhiteSpace(treatment.Description))
                 {
                     ModelState.AddModelError(nameof(treatment.Description), "Description is required with this treatment.");
+                }
+            }
+            else
+            {
+                Animal animal = _animalService.GetByID(treatment.AnimalID);
+                if (treatment.MinimumAge < 6 || animal.Age < 0.5f)
+                {
+                    ModelState.AddModelError(nameof(treatment.MinimumAge), "Castration can only be done when the animal is older than 6 months.");
                 }
             }
             if (ModelState.IsValid)
