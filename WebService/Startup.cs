@@ -65,9 +65,14 @@ namespace WebService
 
             // Repositories Dependency Injections
             services.AddTransient<IAnimalRepository, EFAnimalRepository>();
+            services.AddTransient<ILodgingRepository, EFLodgingRepository>();
+            services.AddTransient<IInterestedAnimalRepository, EFInterestedAnimalRepository>();
+            services.AddTransient<IUserRepository, EFUserRepository>();
 
             // Services Dependency Injections
             services.AddTransient<IAnimalService, AnimalService>();
+            services.AddTransient<ILodgingService, LodgingService>();
+            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

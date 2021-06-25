@@ -36,9 +36,10 @@ namespace Services
 
                 lodging.LodgingAnimals.Add(animal);
                 lodging.CurrentCapacity++;
-                animal.LodgingID = lodging.ID;
-
                 _lodgingRepository.Update(lodging);
+
+                animal.LodgingID = lodging.ID;
+                animal.LodgingLocation = lodging;
                 _animalRepository.Update(animal);
             }
             catch (InvalidOperationException iOE)
@@ -47,10 +48,10 @@ namespace Services
             }
         }
 
-        public void Create(Lodging lodging)
+        public Lodging Create(Lodging lodging)
         {
             lodging.CurrentCapacity = 0;
-            _lodgingRepository.Create(lodging);
+            return _lodgingRepository.Create(lodging);
         }
 
         public void Delete(Lodging lodging)
@@ -78,13 +79,18 @@ namespace Services
         public IEnumerable<Lodging> GetCompatibleLodgings(int animalId)
         {
             var animal = _animalRepository.GetByID(animalId);
+            return GetCompatibleLodgings(animal.AnimalType, animal.Gender, animal.IsNeutered);
+        }
+
+        public IEnumerable<Lodging> GetCompatibleLodgings(AnimalType animalType, Gender gender, bool isNeutered)
+        {
             var lodges = GetAll();
             var compatibleLodges = new List<Lodging>();
 
             foreach (var lodge in lodges)
             {
                 // If the lodge is of the right animal type, and if there is room in the lodge
-                if (lodge.AnimalType == animal.AnimalType && lodge.CurrentCapacity + 1 <= lodge.MaxCapacity)
+                if (lodge.AnimalType == animalType && lodge.CurrentCapacity + 1 <= lodge.MaxCapacity)
                 {
                     // If the lodge is individual
                     if (lodge.LodgingType == LodgingType.Individual)
@@ -94,13 +100,13 @@ namespace Services
                     else
                     {
                         // If the animal is neutered, it doesn't matter in which group lodge it can stay
-                        if (animal.IsNeutered)
+                        if (isNeutered)
                         {
                             compatibleLodges.Add(lodge);
                         }
                         // If it isn't neutered, then it can only stay in group lodges with animals of the same gender
-                        else if ((lodge.LodgingType == LodgingType.GroupMale && animal.Gender == Gender.Male) ||
-                                (lodge.LodgingType == LodgingType.GroupFemale && animal.Gender == Gender.Female))
+                        else if ((lodge.LodgingType == LodgingType.GroupMale && gender == Gender.Male) ||
+                                (lodge.LodgingType == LodgingType.GroupFemale && gender == Gender.Female))
                         {
                             compatibleLodges.Add(lodge);
                         }

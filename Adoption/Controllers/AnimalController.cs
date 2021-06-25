@@ -1,6 +1,7 @@
 ﻿using Core.DomainModel;
 using Core.Enums;
 using DomainServices.Repositories;
+using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +16,12 @@ namespace Adoption.Controllers
     public class AnimalController : Controller
     {
         private readonly IAnimalRepository _animalRepository;
+        private readonly ILodgingService _lodgingService;
 
-        public AnimalController(IAnimalRepository animalRepository)
+        public AnimalController(IAnimalRepository animalRepository, ILodgingService lodgingService)
         {
             _animalRepository = animalRepository;
+            _lodgingService = lodgingService;
         }
 
         public IActionResult Index(AnimalType? animalType, Gender? gender, ChildFriendly? childFriendly)
@@ -55,9 +58,11 @@ namespace Adoption.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Animal animal)
         {
-            if (string.IsNullOrWhiteSpace(animal.LeavingReason))
+            var availableLodges = _lodgingService.GetCompatibleLodgings(animal.AnimalType, animal.Gender, animal.IsNeutered);
+            if (availableLodges.Count() == 0)
             {
-                ModelState.AddModelError(nameof(animal.LeavingReason), "Please give a reason for giving away the animal");
+                ViewBag.Error = "Cannot register animal, shelter has no room.";
+                return View(animal);
             }
             if (animal.ImageFile != null)
             {
@@ -70,7 +75,11 @@ namespace Adoption.Controllers
             {
                 try
                 {
-                    _animalRepository.Create(animal);
+                    animal = _animalRepository.Create(animal);
+
+                    var lodge = availableLodges.First();
+                    _lodgingService.AddAnimalToLodge(lodge, animal);
+
                     return RedirectToAction(nameof(Index));
                 }
                 catch (InvalidOperationException e)

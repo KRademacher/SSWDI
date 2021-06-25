@@ -10,10 +10,24 @@ namespace EFData
         {
         }
 
-        public User FindByUserName(string username)
+        public Customer FindCustomerByID(int id)
         {
-            var users = GetAll();
-            return users.FirstOrDefault(u => u.EmailAddress == username);
+            return _dbContext.Customers.FirstOrDefault(u => u.ID == id);
+        }
+
+        public Customer FindCustomerByUserName(string username)
+        {
+            return _dbContext.Customers.FirstOrDefault(u => u.EmailAddress == username);
+        }
+
+        public Volunteer FindVolunteerByID(int id)
+        {
+            return _dbContext.Volunteers.FirstOrDefault(u => u.ID == id);
+        }
+
+        public Volunteer FindVolunteerByUsername(string username)
+        {
+            return _dbContext.Volunteers.FirstOrDefault(u => u.EmailAddress == username);
         }
     }
 }

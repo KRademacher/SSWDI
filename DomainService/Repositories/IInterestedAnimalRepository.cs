@@ -7,10 +7,10 @@ namespace DomainServices.Repositories
 {
     public interface IInterestedAnimalRepository
     {
-        void Create(int animalId, int userId);
+        InterestedAnimal Create(Animal animal, Customer customer);
 
-        void Delete(int animalId, int userId);
+        void Delete(Animal animal, Customer customer);
 
-        IEnumerable<InterestedAnimal> GetAll(int userId);
+        IEnumerable<Animal> GetAll(int customerId);
     }
 }

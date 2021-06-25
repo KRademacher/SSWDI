@@ -39,5 +39,13 @@ namespace WebService.Controllers
             _animalService.Create(animal);
             return Ok(animal);
         }
+
+        [HttpPut("{id:int}")]
+        public IActionResult Update(int id, [FromBody] Animal animal)
+        {
+            animal.ID = id;
+            _animalService.Update(animal);
+            return Ok(animal);
+        }
     }
 }

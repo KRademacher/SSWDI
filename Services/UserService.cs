@@ -24,14 +24,29 @@ namespace Services
             _roleManager = roleManager;
         }
 
-        public void Create(User user)
+        public User Create(User user)
         {
-            _userRepository.Create(user);
+            return _userRepository.Create(user);
         }
 
-        public User FindByUserName(string username)
+        public Customer FindCustomerByID(int id)
         {
-            return _userRepository.FindByUserName(username);
+            return _userRepository.FindCustomerByID(id);
+        }
+
+        public Customer FindCustomerByUserName(string username)
+        {
+            return _userRepository.FindCustomerByUserName(username);
+        }
+
+        public Volunteer FindVolunteerByID(int id)
+        {
+            return _userRepository.FindVolunteerByID(id);
+        }
+
+        public Volunteer FindVolunteerByUsername(string username)
+        {
+            return _userRepository.FindVolunteerByUsername(username);
         }
 
         public IEnumerable<User> GetAll()

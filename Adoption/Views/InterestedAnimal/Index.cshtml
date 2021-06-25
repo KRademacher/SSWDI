@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Animal>
+
+@{ 
+    ViewData["Title"] = "Index";
+}
+
+<h1>Animals shown interest in</h1>
+
+<table class=" table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Remove Interest", "Delete", "InterestedAnimal", new { animalId = item.ID }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

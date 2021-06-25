@@ -39,11 +39,10 @@ namespace Services
                 {
                     throw new InvalidOperationException("Cannot add treatment to animal not in lodging.");
                 }
-                if (((treatment.TreatmentType &
-                    (TreatmentType.Euthanasia |
-                    TreatmentType.Surgery |
-                    TreatmentType.Vaccination |
-                    TreatmentType.Chipping)) != 0) &&
+                if ((treatment.TreatmentType == TreatmentType.Euthanasia ||
+                    treatment.TreatmentType == TreatmentType.Surgery ||
+                    treatment.TreatmentType == TreatmentType.Vaccination ||
+                    treatment.TreatmentType == TreatmentType.Chipping) &&
                     string.IsNullOrWhiteSpace(treatment.Description))
                 {
                     if (treatment.TreatmentType.HasFlag(TreatmentType.Chipping))
@@ -62,7 +61,7 @@ namespace Services
             }
         }
 
-        public void Create(Animal animal)
+        public Animal Create(Animal animal)
         {
             try
             {
@@ -77,7 +76,7 @@ namespace Services
                 {
                     throw new InvalidOperationException("Age can't be less than 0.");
                 }
-                _animalRepository.Create(animal);
+                return _animalRepository.Create(animal);
             }
             catch (InvalidOperationException iOE)
             {

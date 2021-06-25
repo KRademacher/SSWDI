@@ -39,6 +39,10 @@ namespace Management.Controllers
         public IActionResult Details(int id)
         {
             var animal = _animalService.GetByID(id);
+            if (animal.LodgingID != null)
+            {
+                animal.LodgingLocation = _lodgingService.GetByID(animal.LodgingID.Value);
+            }
             if (animal.Picture != null)
             {
                 string pictureBase64Data = Convert.ToBase64String(animal.Picture);
@@ -50,17 +54,35 @@ namespace Management.Controllers
         // GET: AnimalController/Create
         public IActionResult Create()
         {
-            return View();
+            Animal animal = new Animal()
+            {
+                DateOfAdoption = DateTime.Now
+            };
+            return View(animal);
         }
 
         // POST: AnimalController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Animal animal)
+        public IActionResult Create(Animal animal)
         {
+            var availableLodgings = _lodgingService.GetCompatibleLodgings(animal.AnimalType, animal.Gender, animal.IsNeutered);
+            if (availableLodgings.Count() == 0)
+            {
+                ViewBag.Error = "Can't register animal: No available lodges.";
+                return View(animal);
+            }
             if (ModelState.IsValid)
             {
-                _animalService.Create(animal);
+                if (!string.IsNullOrEmpty(animal.ImageFile.FileName))
+                {
+                    animal.ImageName = animal.ImageFile.FileName;
+                }
+                animal = _animalService.Create(animal);
+
+                // Place animal in first available lodge
+                var lodge = availableLodgings.First();
+                _lodgingService.AddAnimalToLodge(lodge, animal);
                 return RedirectToAction(nameof(Index));
             }
             return View(animal);
@@ -76,10 +98,14 @@ namespace Management.Controllers
         // POST: AnimalController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Animal animal)
+        public IActionResult Edit(Animal animal)
         {
             if (ModelState.IsValid)
             {
+                if (!string.IsNullOrEmpty(animal.ImageFile.FileName))
+                {
+                    animal.ImageName = animal.ImageFile.FileName;
+                }
                 _animalService.Update(animal);
                 return RedirectToAction(nameof(Index));
             }
@@ -133,6 +159,10 @@ namespace Management.Controllers
         public IActionResult RemoveAnimalFromLodge(int id)
         {
             var animal = _animalService.GetByID(id);
+            if (animal.LodgingID == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             var lodge = _lodgingService.GetByID(animal.LodgingID.Value);
             var viewModel = new AnimalViewModel()
             {

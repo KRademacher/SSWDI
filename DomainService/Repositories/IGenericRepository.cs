@@ -4,7 +4,7 @@ namespace DomainServices.Repositories
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        void Create(TEntity entity);
+        TEntity Create(TEntity entity);
 
         IEnumerable<TEntity> GetAll();
 

@@ -13,10 +13,11 @@ namespace EFData
             _dbContext = dbContext;
         }
 
-        public void Create(TEntity entity)
+        public TEntity Create(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
             _dbContext.SaveChanges();
+            return entity;
         }
 
         public IEnumerable<TEntity> GetAll()

@@ -68,9 +68,14 @@ namespace Adoption
 
             services.AddAutoMapper(typeof(Startup));
 
+            // Dependency Injection; Repo's
             services.AddTransient<IAnimalRepository, HttpAnimalRepository>();
+            services.AddTransient<ILodgingRepository, HttpLodgingRepository>();
+            services.AddTransient<IInterestedAnimalRepository, HttpInterestedAnimalRepository>();
             services.AddScoped<IUserRepository, EFUserRepository>();
 
+            // Dependency Injection; Services
+            services.AddTransient<ILodgingService, LodgingService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<PasswordHasher<ApplicationUser>>();
