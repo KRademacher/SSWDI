@@ -3,6 +3,7 @@ using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace Adoption.Controllers
 {
@@ -36,17 +37,21 @@ namespace Adoption.Controllers
             if (_interestedAnimalRepository.Get(customer.ID, animal.ID) != null)
             {
                 TempData["Error"] = "You've already shown interest to this animal.";
-                return RedirectToAction(nameof(Index), "Animal");
+            }
+            if (_interestedAnimalRepository.GetAll(customer.ID).ToList().Count == 3)
+            {
+                TempData["Error"] = "You've shown interest to three animals.\n" +
+                    "Please remove an animals from your list before adding another one.";
             }
             try
             {
                 _interestedAnimalRepository.Create(animal, customer);
-                return RedirectToAction(nameof(Index), "Animal");
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return RedirectToAction(nameof(Index), "Animal");
         }
 
         [Route("InterestedAnimal/Delete/{animalId:int}")]
