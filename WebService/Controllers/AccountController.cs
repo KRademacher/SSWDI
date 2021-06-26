@@ -21,5 +21,13 @@ namespace WebService.Controllers
             _userRepository.Create(customer);
             return Ok(customer);
         }
+
+        [HttpGet]
+        [Route("/api/account/{username}")]
+        public IActionResult GetByUserName(string username)
+        {
+            var customer = _userRepository.GetCustomerByUserName(username);
+            return Ok(customer);
+        }
     }
 }

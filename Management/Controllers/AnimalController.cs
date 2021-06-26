@@ -16,19 +16,19 @@ namespace Management.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly ILodgingService _lodgingService;
+        private readonly IInterestedAnimalRepository _interestedAnimalRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
         public AnimalController(
             IAnimalService animalService, 
             ILodgingService lodgingService,
-            IUserRepository userRepository,
-            IWebHostEnvironment hostEnvironment)
+            IInterestedAnimalRepository interestedAnimalRepository,
+            IUserRepository userRepository)
         {
             _animalService = animalService;
             _lodgingService = lodgingService;
+            _interestedAnimalRepository = interestedAnimalRepository;
             _userRepository = userRepository;
-            _hostEnvironment = hostEnvironment;
         }
 
         // GET: AnimalController
@@ -226,6 +226,11 @@ namespace Management.Controllers
             {
                 var lodge = _lodgingService.GetByID(animal.LodgingID.Value);
                 _lodgingService.RemoveAnimalFromLodge(lodge, animal);
+            }
+            var interests = _interestedAnimalRepository.GetAll().Where(i => i.AnimalID == viewModel.Animal.ID);
+            foreach (var interest in interests)
+            {
+                _interestedAnimalRepository.Delete(interest.Animal, interest.Customer);
             }
             animal.Adoptable = false;
             animal.DateOfAdoption = viewModel.DateOfAdoption;

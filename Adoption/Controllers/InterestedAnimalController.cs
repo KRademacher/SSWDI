@@ -27,7 +27,7 @@ namespace Adoption.Controllers
         public IActionResult Index()
         {
             var customer = _userRepository.GetCustomerByUserName(User.Identity.Name);
-            return View(_interestedAnimalRepository.GetAll(customer.ID));
+            return View(_interestedAnimalRepository.GetAllOfCustomer(customer.ID));
         }
 
         [Route("InterestedAnimal/Create/{animalId:int}")]
@@ -39,7 +39,7 @@ namespace Adoption.Controllers
             {
                 TempData["Error"] = "You've already shown interest to this animal.";
             }
-            if (_interestedAnimalRepository.GetAll(customer.ID).ToList().Count == 3)
+            if (_interestedAnimalRepository.GetAllOfCustomer(customer.ID).ToList().Count == 3)
             {
                 TempData["Error"] = "You've shown interest to three animals.\n" +
                     "Please remove an animals from your list before adding another one.";
