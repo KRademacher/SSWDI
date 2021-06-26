@@ -5,9 +5,12 @@
 }
 
 <h1>Comments of @ViewBag.Animal</h1>
-<p>
-    @Html.ActionLink("Add comment", "Create", "Comment", new { animalId = ViewBag.AnimalId }, null)
-</p>
+@if (!ViewBag.IsAnimalAdopted)
+{
+    <p>
+        @Html.ActionLink("Add comment", "Create", "Comment", new { animalId = ViewBag.AnimalId }, null)
+    </p>
+}
 
 <table class="table">
     <thead>

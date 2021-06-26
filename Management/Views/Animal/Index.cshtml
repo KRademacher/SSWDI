@@ -91,6 +91,11 @@
                         @Html.ActionLink("Add treatment", "Create", "Treatment", new { animalId = item.ID }, null)<br />
                         <a asp-action="RegisterAdoption" asp-route-id="@item.ID">Register adoption</a>
                     }
+                    else
+                    {
+                        @Html.ActionLink("Comments", "Index", "Comment", new { animalId = item.ID }, null)<br />
+                        @Html.ActionLink("Treatments", "Index", "Treatment", new { animalId = item.ID }, null)
+                    }
                 </td>
             </tr>
         }

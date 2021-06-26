@@ -24,6 +24,7 @@ namespace Management.Controllers
             var animal = _animalService.GetByID(animalId);
             ViewBag.Animal = animal.Name;
             ViewBag.AnimalId = animalId;
+            ViewBag.IsAnimalAdopted = (animal.AdoptedByID != null || !string.IsNullOrWhiteSpace(animal.AdopteeName));
             return View(animal.Comments);
         }
 

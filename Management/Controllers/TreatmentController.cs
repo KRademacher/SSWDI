@@ -21,11 +21,11 @@ namespace Management.Controllers
         [Route("Animal/{animalId:int}/Treatment")]
         public IActionResult Index(int animalId)
         {
-            IEnumerable<Treatment> treatments;
+            var animal = _animalService.GetByID(animalId);
             ViewBag.AnimalId = animalId;
             ViewBag.AnimalName = _animalService.GetByID(animalId).Name;
-            treatments = _animalService.GetTreatments(animalId);
-            return View(treatments);
+            ViewBag.IsAnimalAdopted = (animal.AdoptedByID != null || !string.IsNullOrWhiteSpace(animal.AdopteeName));
+            return View(_animalService.GetTreatments(animalId));
         }
 
         [Route("Animal/{animalId:int}/Treatment/Details/{id:int}")]

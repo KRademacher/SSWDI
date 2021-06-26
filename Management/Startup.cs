@@ -66,6 +66,7 @@ namespace Management
             // Dependency Injection; Repos
             services.AddTransient<IAnimalRepository, EFAnimalRepository>();
             services.AddTransient<ILodgingRepository, EFLodgingRepository>();
+            services.AddTransient<IInterestedAnimalRepository, EFInterestedAnimalRepository>();
             services.AddTransient<IUserRepository, EFUserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
 

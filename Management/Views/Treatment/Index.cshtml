@@ -12,9 +12,13 @@ else
     <h1>Treatments</h1>
 }
 
-<p>
-    @Html.ActionLink("Add new treatment", "Create", new { animalId = (int)ViewBag.AnimalId }, null)
-</p>
+@if (!ViewBag.IsAnimalAdopted)
+{
+    <p>
+        @Html.ActionLink("Add new treatment", "Create", new { animalId = (int)ViewBag.AnimalId }, null)
+    </p>
+}
+
 <table class="table table-hover">
     <thead>
         <tr>
