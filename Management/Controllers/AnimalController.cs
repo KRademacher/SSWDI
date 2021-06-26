@@ -1,5 +1,5 @@
 ﻿using Core.DomainModel;
-using Core.Enums;
+using DomainServices.Repositories;
 using DomainServices.Services;
 using Management.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,18 +16,18 @@ namespace Management.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly ILodgingService _lodgingService;
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _hostEnvironment;
 
         public AnimalController(
             IAnimalService animalService, 
             ILodgingService lodgingService,
-            IUserService userService,
+            IUserRepository userRepository,
             IWebHostEnvironment hostEnvironment)
         {
             _animalService = animalService;
             _lodgingService = lodgingService;
-            _userService = userService;
+            _userRepository = userRepository;
             _hostEnvironment = hostEnvironment;
         }
 
@@ -52,7 +52,7 @@ namespace Management.Controllers
             }
             if (animal.AdoptedByID != null)
             {
-                animal.AdoptedBy = _userService.GetCustomerByID(animal.AdoptedByID.Value);
+                animal.AdoptedBy = _userRepository.GetCustomerByID(animal.AdoptedByID.Value);
             }
             return View(animal);
         }
@@ -192,7 +192,7 @@ namespace Management.Controllers
         public IActionResult RegisterAdoption(int id)
         {
             Animal animal = _animalService.GetByID(id);
-            List<Customer> customers = _userService.GetAllCustomers().ToList();
+            List<Customer> customers = _userRepository.GetAllCustomers().ToList();
             var viewModel = new AdoptionViewModel()
             {
                 Animal = animal,
@@ -217,7 +217,7 @@ namespace Management.Controllers
             }
             else if (string.IsNullOrWhiteSpace(viewModel.AdopteeName))
             {
-                var customer = _userService.GetCustomerByID(viewModel.Customer.ID);
+                var customer = _userRepository.GetCustomerByID(viewModel.Customer.ID);
                 animal.AdoptedByID = viewModel.Customer.ID;
                 animal.AdoptedBy = customer;
                     

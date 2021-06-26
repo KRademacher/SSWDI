@@ -1,5 +1,4 @@
 ﻿using DomainServices.Repositories;
-using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,27 +11,29 @@ namespace Adoption.Controllers
     {
         private readonly IAnimalRepository _animalRepository;
         private readonly IInterestedAnimalRepository _interestedAnimalRepository;
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public InterestedAnimalController(IAnimalRepository animalRepository,
-            IInterestedAnimalRepository interestedAnimalRepository, IUserService userService)
+        public InterestedAnimalController(
+            IAnimalRepository animalRepository,
+            IInterestedAnimalRepository interestedAnimalRepository,
+            IUserRepository userRepository)
         {
             _animalRepository = animalRepository;
             _interestedAnimalRepository = interestedAnimalRepository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
+            var customer = _userRepository.GetCustomerByUserName(User.Identity.Name);
             return View(_interestedAnimalRepository.GetAll(customer.ID));
         }
 
         [Route("InterestedAnimal/Create/{animalId:int}")]
         public IActionResult Create(int animalId)
         {
-            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
+            var customer = _userRepository.GetCustomerByUserName(User.Identity.Name);
             var animal = _animalRepository.GetByID(animalId);
             if (_interestedAnimalRepository.Get(customer.ID, animal.ID) != null)
             {
@@ -57,7 +58,7 @@ namespace Adoption.Controllers
         [Route("InterestedAnimal/Delete/{animalId:int}")]
         public IActionResult Delete(int animalId)
         {
-            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
+            var customer = _userRepository.GetCustomerByUserName(User.Identity.Name);
             var animal = _animalRepository.GetByID(animalId);
             try
             {

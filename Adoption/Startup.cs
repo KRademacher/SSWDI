@@ -2,9 +2,9 @@ using AutoMapper;
 using Core.DomainModel;
 using DomainServices.Repositories;
 using DomainServices.Services;
-using EFData;
 using HttpData;
 using Identity;
+using Identity.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -29,11 +29,6 @@ namespace Adoption
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration["Data:AnimalShelter:ConnectionString"])
-                    .EnableSensitiveDataLogging());
-
             services.AddDbContext<AppIdentityDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["Data:Identity:ConnectionString"])
@@ -68,11 +63,11 @@ namespace Adoption
             services.AddTransient<IAnimalRepository, HttpAnimalRepository>();
             services.AddTransient<ILodgingRepository, HttpLodgingRepository>();
             services.AddTransient<IInterestedAnimalRepository, HttpInterestedAnimalRepository>();
-            services.AddScoped<IUserRepository, EFUserRepository>();
+            services.AddTransient<IUserRepository, HttpUserRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             // Dependency Injection; Services
             services.AddTransient<ILodgingService, LodgingService>();
-            services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<PasswordHasher<ApplicationUser>>();
 

@@ -4,6 +4,7 @@ using DomainServices.Repositories;
 using DomainServices.Services;
 using EFData;
 using Identity;
+using Identity.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -65,12 +66,12 @@ namespace Management
             // Dependency Injection; Repos
             services.AddTransient<IAnimalRepository, EFAnimalRepository>();
             services.AddTransient<ILodgingRepository, EFLodgingRepository>();
-            services.AddScoped<IUserRepository, EFUserRepository>();
+            services.AddTransient<IUserRepository, EFUserRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
             // Dependency Injection; Services
             services.AddTransient<IAnimalService, AnimalService>();
             services.AddTransient<ILodgingService, LodgingService>();
-            services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<PasswordHasher<ApplicationUser>>();
 

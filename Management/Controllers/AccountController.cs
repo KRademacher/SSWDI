@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Core.DomainModel;
-using DomainServices.Services;
+using DomainServices.Repositories;
 using Identity;
+using Identity.Repositories;
 using Management.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,21 +20,24 @@ namespace Management.Controllers
         private readonly PasswordHasher<ApplicationUser> _passwordHasher;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserService _userService;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
         public List<AuthenticationScheme> ExternalLogins { get; set; }
 
         public AccountController(
-            PasswordHasher<ApplicationUser> passwordHasher, 
-            SignInManager<ApplicationUser> signInManager, 
-            UserManager<ApplicationUser> userManager, 
-            IUserService userService, IMapper mapper)
+            PasswordHasher<ApplicationUser> passwordHasher,
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            IAccountRepository accountRepository,
+            IUserRepository userRepository, IMapper mapper)
         {
             _passwordHasher = passwordHasher;
             _signInManager = signInManager;
             _userManager = userManager;
-            _userService = userService;
+            _accountRepository = accountRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -75,11 +80,16 @@ namespace Management.Controllers
                     DateOfBirth = model.DateOfBirth
                 };
                 var mappedUser = _mapper.Map<Volunteer, ApplicationUser>(appUser);
-                mappedUser.PasswordHash = _passwordHasher.HashPassword(mappedUser, model.Password);
-                var result = await _userService.RegisterVolunteer(appUser, mappedUser);
 
+                mappedUser.PasswordHash = _passwordHasher.HashPassword(mappedUser, model.Password);
+                mappedUser.Id = Guid.NewGuid().ToString();
+                mappedUser.UserName = appUser.EmailAddress;
+                mappedUser.Email = appUser.EmailAddress;
+
+                var result = await _accountRepository.RegisterVolunteer(mappedUser);
                 if (result.Succeeded)
                 {
+                    _userRepository.Create(appUser);
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { emailAddress = model.EmailAddress, returnUrl });

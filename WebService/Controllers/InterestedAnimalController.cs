@@ -1,6 +1,5 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
-using DomainServices.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebService.Controllers
@@ -11,14 +10,16 @@ namespace WebService.Controllers
     {
         private readonly IAnimalRepository _animalRepository;
         private readonly IInterestedAnimalRepository _interestedAnimalRepository;
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
-        public InterestedAnimalController(IAnimalRepository animalRepository,
-            IInterestedAnimalRepository interestedAnimalRepository, IUserService userService)
+        public InterestedAnimalController(
+            IAnimalRepository animalRepository,
+            IInterestedAnimalRepository interestedAnimalRepository,
+            IUserRepository userRepository)
         {
             _animalRepository = animalRepository;
             _interestedAnimalRepository = interestedAnimalRepository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
 
         [HttpGet("{id:int}")]
@@ -43,7 +44,7 @@ namespace WebService.Controllers
         [HttpDelete("{customerId:int}/{animalId:int}")]
         public IActionResult Delete(int customerId, int animalId)
         {
-            var customer = _userService.GetCustomerByID(customerId);
+            var customer = _userRepository.GetCustomerByID(customerId);
             var animal = _animalRepository.GetByID(animalId);
             _interestedAnimalRepository.Delete(animal, customer);
             return Ok();
