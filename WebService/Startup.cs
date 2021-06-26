@@ -32,20 +32,6 @@ namespace WebService
                     Configuration["Data:AnimalShelter:ConnectionString"])
                     .EnableSensitiveDataLogging());
 
-            services.AddDbContext<AppIdentityDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration["Data:Identity:ConnectionString"])
-                    .EnableSensitiveDataLogging());
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddEntityFrameworkStores<AppIdentityDbContext>()
-            .AddDefaultTokenProviders();
-
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireVolunteer", policy => policy.RequireRole("Volunteer"));
