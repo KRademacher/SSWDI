@@ -1,7 +1,10 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 
 namespace HttpData
 {
@@ -9,7 +12,24 @@ namespace HttpData
     {
         public User Create(User user)
         {
-            return Globals.HttpPost(user, "/api/register");
+            Customer customer;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    var json = JsonConvert.SerializeObject(user);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                    using HttpResponseMessage response = httpClient.PostAsync(Globals.ApiBaseUrl + "/api/register", content).Result;
+                    response.EnsureSuccessStatusCode();
+                    string apiResponse = response.Content.ReadAsStringAsync().Result;
+                    customer = JsonConvert.DeserializeObject<Customer>(apiResponse);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return customer;
         }
 
         public IEnumerable<User> GetAll()
@@ -39,7 +59,7 @@ namespace HttpData
 
         public Customer GetCustomerByUserName(string username)
         {
-            throw new InvalidOperationException("Operation not permitted");
+            return Globals.HttpGet<Customer>($"/api/account/{username}");
         }
 
         public Volunteer GetVolunteerByID(int id)

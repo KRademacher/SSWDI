@@ -25,7 +25,7 @@ namespace WebService.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetAll(int id)
         {
-            return Ok(_interestedAnimalRepository.GetAll(id));
+            return Ok(_interestedAnimalRepository.GetAllOfCustomer(id));
         }
 
         [HttpGet("{customerId:int}/{animalId:int}")]

@@ -42,7 +42,7 @@ namespace EFData
                 ia.CustomerID == customerId && ia.AnimalID == animalId);
         }
 
-        public IEnumerable<Animal> GetAll(int customerId)
+        public IEnumerable<Animal> GetAllOfCustomer(int customerId)
         {
             var interestedAnimals = _dbContext.InterestedAnimals.Where(c => c.CustomerID == customerId);
             List<Animal> animals = new List<Animal>();

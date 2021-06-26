@@ -21,6 +21,7 @@ namespace HttpData
         /// <returns>API response of T.</returns>
         public static T HttpGet<T>(string endpoint)
         {
+            T temp;
             using (var httpClient = new HttpClient())
             {
                 try
@@ -28,13 +29,14 @@ namespace HttpData
                     using HttpResponseMessage response = httpClient.GetAsync(ApiBaseUrl + endpoint).Result;
                     response.EnsureSuccessStatusCode();
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(apiResponse);
+                    temp = JsonConvert.DeserializeObject<T>(apiResponse);
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
             }
+            return temp;
         }
 
         /// <summary>
@@ -45,6 +47,7 @@ namespace HttpData
         /// <param name="endpoint">The endpoint to send the request to.</param>
         public static T HttpPost<T>(T entity, string endpoint)
         {
+            T temp;
             try
             {
                 using (var httpClient = new HttpClient())
@@ -54,13 +57,14 @@ namespace HttpData
                     using HttpResponseMessage response = httpClient.PostAsync(ApiBaseUrl + endpoint, content).Result;
                     response.EnsureSuccessStatusCode();
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(apiResponse);
+                    temp = JsonConvert.DeserializeObject<T>(apiResponse);
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return temp;
         }
 
         /// <summary>

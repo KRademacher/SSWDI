@@ -11,6 +11,8 @@ namespace DomainServices.Repositories
 
         InterestedAnimal Get(int customerId, int animalId);
 
-        IEnumerable<Animal> GetAll(int customerId);
+        IEnumerable<InterestedAnimal> GetAll();
+
+        IEnumerable<Animal> GetAllOfCustomer(int customerId);
     }
 }

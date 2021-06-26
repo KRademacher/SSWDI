@@ -19,6 +19,7 @@ namespace HttpData
                 Customer = customer,
                 CustomerID = customer.ID
             };
+            InterestedAnimal returnedInterest;
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -28,13 +29,14 @@ namespace HttpData
                     using HttpResponseMessage response = httpClient.PostAsync(Globals.ApiBaseUrl + "/api/interest", content).Result;
                     response.EnsureSuccessStatusCode();
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<InterestedAnimal>(apiResponse);
+                    returnedInterest = JsonConvert.DeserializeObject<InterestedAnimal>(apiResponse);
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return returnedInterest;
         }
 
         public void Delete(Animal animal, Customer customer)
@@ -64,6 +66,7 @@ namespace HttpData
 
         public InterestedAnimal Get(int customerId, int animalId)
         {
+            InterestedAnimal interestedAnimal;
             using (var httpClient = new HttpClient())
             {
                 try
@@ -71,17 +74,19 @@ namespace HttpData
                     using HttpResponseMessage response = httpClient.GetAsync(Globals.ApiBaseUrl + $"/api/interest/{customerId}/{animalId}").Result;
                     response.EnsureSuccessStatusCode();
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<InterestedAnimal>(apiResponse);
+                    interestedAnimal = JsonConvert.DeserializeObject<InterestedAnimal>(apiResponse);
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
             }
+            return interestedAnimal;
         }
 
-        public IEnumerable<Animal> GetAll(int customerId)
+        public IEnumerable<Animal> GetAllOfCustomer(int customerId)
         {
+            IEnumerable<Animal> animals;
             using (var httpClient = new HttpClient())
             {
                 try
@@ -89,13 +94,14 @@ namespace HttpData
                     using HttpResponseMessage response = httpClient.GetAsync(Globals.ApiBaseUrl + $"/api/interest/{customerId}").Result;
                     response.EnsureSuccessStatusCode();
                     string apiResponse = response.Content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<IEnumerable<Animal>>(apiResponse);
+                    animals = JsonConvert.DeserializeObject<IEnumerable<Animal>>(apiResponse);
                 }
                 catch (Exception e)
                 {
                     throw e;
                 }
             }
+            return animals;
         }
     }
 }
