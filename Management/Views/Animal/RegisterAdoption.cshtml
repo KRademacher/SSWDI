@@ -1,0 +1,48 @@
+﻿@model AdoptionViewModel
+
+@{ ViewData["Title"] = "Register animal as adopted"; }
+
+<h1>Register animal as adopted</h1>
+
+<h4>@Model.Animal.Name</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="RegisterAdoption">
+            <p style="color: red; font-size: 16px;">@ViewBag.Message</p>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Animal.ID" />
+            <div class="form-group">
+                <label class="control-label">Customers:</label>
+                <select asp-for="Customer.ID" class="form-control">
+                    <option value="0"></option>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <option value="@customer.ID">@customer.FirstName @customer.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdopteeName" class="control-label"></label>
+                <input asp-for="AdopteeName" class="form-control" />
+                <span asp-validation-for="AdopteeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateOfAdoption" class="control-label"></label>
+                <input asp-for="DateOfAdoption" class="form-control" />
+                <span asp-validation-for="DateOfAdoption" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

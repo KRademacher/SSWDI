@@ -29,6 +29,10 @@ namespace EFData
                 .HasIndex(c => c.EmailAddress)
                 .IsUnique();
 
+            modelBuilder.Entity<Customer>()
+                .HasMany(c => c.AdoptedAnimals)
+                .WithOne(a => a.AdoptedBy);
+
             // Many to many relationship between Customer and Animal.
             // A customer can show interest in multiple animals.
             // An animal can have multiple customers interested.

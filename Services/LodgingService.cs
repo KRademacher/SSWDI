@@ -72,6 +72,14 @@ namespace Services
         {
             var lodging = _lodgingRepository.GetByID(id);
             lodging.LodgingAnimals = _animalRepository.GetAll().Where(a => a.LodgingID == lodging.ID).ToList();
+            foreach (var animal in lodging.LodgingAnimals)
+            {
+                if (animal.Picture != null)
+                {
+                    string pictureBase64Data = Convert.ToBase64String(animal.Picture);
+                    animal.PictureData = string.Format("data:/image/jpg;base64,{0}", pictureBase64Data);
+                }
+            }
             return lodging;
         }
 

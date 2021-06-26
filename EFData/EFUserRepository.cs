@@ -1,5 +1,6 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EFData
@@ -28,6 +29,16 @@ namespace EFData
         public Volunteer FindVolunteerByUsername(string username)
         {
             return _dbContext.Volunteers.FirstOrDefault(u => u.EmailAddress == username);
+        }
+
+        public IEnumerable<Customer> GetAllCustomers()
+        {
+            return _dbContext.Customers;
+        }
+
+        public IEnumerable<Volunteer> GetAllVolunteers()
+        {
+            return _dbContext.Volunteers;
         }
     }
 }

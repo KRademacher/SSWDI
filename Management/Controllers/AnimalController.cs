@@ -1,10 +1,12 @@
 ﻿using Core.DomainModel;
+using Core.Enums;
 using DomainServices.Services;
 using Management.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Management.Controllers
@@ -14,15 +16,18 @@ namespace Management.Controllers
     {
         private readonly IAnimalService _animalService;
         private readonly ILodgingService _lodgingService;
+        private readonly IUserService _userService;
         private readonly IWebHostEnvironment _hostEnvironment;
 
         public AnimalController(
             IAnimalService animalService, 
             ILodgingService lodgingService,
+            IUserService userService,
             IWebHostEnvironment hostEnvironment)
         {
             _animalService = animalService;
             _lodgingService = lodgingService;
+            _userService = userService;
             _hostEnvironment = hostEnvironment;
         }
 
@@ -44,6 +49,10 @@ namespace Management.Controllers
             {
                 string pictureBase64Data = Convert.ToBase64String(animal.Picture);
                 animal.PictureData = string.Format("data:/image/jpg;base64,{0}", pictureBase64Data);
+            }
+            if (animal.AdoptedByID != null)
+            {
+                animal.AdoptedBy = _userService.FindCustomerByID(animal.AdoptedByID.Value);
             }
             return View(animal);
         }
@@ -176,6 +185,51 @@ namespace Management.Controllers
             var animal = _animalService.GetByID(viewModel.Animal.ID);
             var lodge = _lodgingService.GetByID(viewModel.Lodging.ID);
             _lodgingService.RemoveAnimalFromLodge(lodge, animal);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult RegisterAdoption(int id)
+        {
+            Animal animal = _animalService.GetByID(id);
+            List<Customer> customers = _userService.GetAllCustomers().ToList();
+            var viewModel = new AdoptionViewModel()
+            {
+                Animal = animal,
+                Customers = customers,
+                DateOfAdoption = DateTime.Now
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult RegisterAdoption(AdoptionViewModel viewModel)
+        {
+            if (string.IsNullOrWhiteSpace(viewModel.AdopteeName) && viewModel.Customer.ID == 0)
+            {
+                ModelState.AddModelError(nameof(viewModel.AdopteeName), "Either a customer or name has to be filled in.");
+                return View(viewModel);
+            }
+            var animal = _animalService.GetByID(viewModel.Animal.ID);
+            if (viewModel.Customer.ID == 0)
+            {
+                animal.AdopteeName = viewModel.AdopteeName;
+            }
+            else if (string.IsNullOrWhiteSpace(viewModel.AdopteeName))
+            {
+                var customer = _userService.FindCustomerByID(viewModel.Customer.ID);
+                animal.AdoptedByID = viewModel.Customer.ID;
+                animal.AdoptedBy = customer;
+                    
+            }
+            if (animal.LodgingID != null)
+            {
+                var lodge = _lodgingService.GetByID(animal.LodgingID.Value);
+                _lodgingService.RemoveAnimalFromLodge(lodge, animal);
+            }
+            animal.Adoptable = false;
+            animal.DateOfAdoption = viewModel.DateOfAdoption;
+            _animalService.Update(animal);
             return RedirectToAction(nameof(Index));
         }
     }

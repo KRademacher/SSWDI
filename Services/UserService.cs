@@ -54,6 +54,16 @@ namespace Services
             return _userRepository.GetAll();
         }
 
+        public IEnumerable<Customer> GetAllCustomers()
+        {
+            return _userRepository.GetAllCustomers();
+        }
+
+        public IEnumerable<Volunteer> GetAllVolunteers()
+        {
+            return _userRepository.GetAllVolunteers();
+        }
+
         public User GetByID(int id)
         {
             return _userRepository.GetByID(id);

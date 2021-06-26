@@ -36,6 +36,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.DateOfArrival)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfPassing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfAdoption)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -69,12 +75,22 @@
                     @Html.DisplayFor(modelItem => item.DateOfArrival)
                 </td>
                 <td>
-                    <a asp-action="PlaceAnimalInLodging" asp-route-id="@item.ID">Place Animal</a> |
-                    <a asp-action="RemoveAnimalFromLodge" asp-route-id="@item.ID">Remove Animal</a><br />
-                    @Html.ActionLink("Comments", "Index", "Comment", new { animalId = item.ID }, null) |
-                    @Html.ActionLink("Place comment", "Create", "Comment", new { animalId = item.ID }, null)<br />
-                    @Html.ActionLink("Treatments", "Index", "Treatment", new { animalId = item.ID }, null) |
-                    @Html.ActionLink("Add treatment", "Create", "Treatment", new { animalId = item.ID }, null)
+                    @Html.DisplayFor(modelItem => item.DateOfPassing)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfAdoption)
+                </td>
+                <td>
+                    @if (item.DateOfAdoption == null)
+                    {
+                        <a asp-action="PlaceAnimalInLodging" asp-route-id="@item.ID">Place animal</a> @:|
+                        <a asp-action="RemoveAnimalFromLodge" asp-route-id="@item.ID">Remove animal</a><br />
+                        @Html.ActionLink("Comments", "Index", "Comment", new { animalId = item.ID }, null) @:|
+                        @Html.ActionLink("Place comment", "Create", "Comment", new { animalId = item.ID }, null)<br />
+                        @Html.ActionLink("Treatments", "Index", "Treatment", new { animalId = item.ID }, null) @:|
+                        @Html.ActionLink("Add treatment", "Create", "Treatment", new { animalId = item.ID }, null)<br />
+                        <a asp-action="RegisterAdoption" asp-route-id="@item.ID">Register adoption</a>
+                    }
                 </td>
             </tr>
         }

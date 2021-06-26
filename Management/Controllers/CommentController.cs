@@ -2,6 +2,7 @@
 using DomainServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 
 namespace Management.Controllers
@@ -22,6 +23,7 @@ namespace Management.Controllers
         {
             var animal = _animalService.GetByID(animalId);
             ViewBag.Animal = animal.Name;
+            ViewBag.AnimalId = animalId;
             return View(animal.Comments);
         }
 
@@ -33,7 +35,8 @@ namespace Management.Controllers
             var comment = new Comment()
             {
                 AnimalID = animalId,
-                Author = username
+                Author = username,
+                Date = DateTime.Now
             };
             return View(comment);
         }
@@ -47,7 +50,8 @@ namespace Management.Controllers
             if (ModelState.IsValid)
             {
                 _animalService.AddComment(comment);
-                return RedirectToAction(nameof(Index), "Animal");
+                //return RedirectToAction(nameof(Index));
+                return Redirect($"~/Comment/Index/{comment.AnimalID}");
             }
             return View(comment);
         }

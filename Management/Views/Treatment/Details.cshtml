@@ -50,5 +50,6 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID, animalId = (int)ViewBag.AnimalId }, null) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID, animalId = (int)ViewBag.AnimalId }, null) |
     @Html.ActionLink("Back to List", "Index", new { animalId = (int)ViewBag.AnimalId }, null)
 </div>

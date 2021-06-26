@@ -10,114 +10,150 @@
     <h4>Animal</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.DateOfBirth)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.DateOfBirth)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Age)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Age)
         </dd>
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.EstimatedAge)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.EstimatedAge)
-        </dd>
-        <dt class = "col-sm-4">
+        @if (Model.DateOfBirth == null)
+        {
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.EstimatedAge)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.EstimatedAge)
+            </dd>
+        }
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.AnimalType)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.AnimalType)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Breed)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Breed)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Gender)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Gender)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Picture)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             <img src="@Model.PictureData"
                  style="max-height: 200px; max-width: 200px;" />
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.DateOfArrival)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.DateOfArrival)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.DateOfAdoption)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.DateOfAdoption)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.DateOfPassing)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.DateOfPassing)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.IsNeutered)
         </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.IsNeutered)
+        <dd class="col-sm-8">
+            @if (Model.IsNeutered)
+            {
+                @:Yes
+            }
+            else
+            {
+                @:No
+            }
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.IsChildFriendly)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.IsChildFriendly)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.LeavingReason)
         </dt>
-        <dd class = "col-sm-8">
+        <dd class="col-sm-8">
             @Html.DisplayFor(model => model.LeavingReason)
         </dd>
-        <dt class = "col-sm-4">
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Adoptable)
         </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.Adoptable)
+        <dd class="col-sm-8">
+            @if (Model.Adoptable)
+            {
+                @:Yes
+            }
+            else
+            {
+                @:No
+            }
         </dd>
-        <dt class = "col-sm-4">
-            @Html.DisplayNameFor(model => model.AdoptedBy)
-        </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.AdoptedBy.EmailAddress)
-        </dd>
-        <dt class = "col-sm-4">
+        @if (Model.AdoptedBy != null)
+        {
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.AdoptedBy)
+            </dt>
+            <dd class="col-sm-8">
+                @Model.AdoptedBy.FirstName @Model.AdoptedBy.LastName
+            </dd>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.AdopteeName))
+        {
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.AdopteeName)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AdopteeName)
+            </dd>
+        }
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.LodgingLocation)
         </dt>
-        <dd class = "col-sm-8">
-            @Html.DisplayFor(model => model.LodgingLocation.Description)
+        <dd class="col-sm-8">
+            @if (Model.LodgingID != null)
+            {
+                @:@Model.LodgingLocation.Description
+            }
+            else
+            {
+                @:Animal not in lodge
+            }
         </dd>
     </dl>
 </div>

@@ -81,11 +81,16 @@ namespace Core.DomainModel
         public int? AdoptedByID { get; set; }
 
         [ForeignKey("AdoptedByID")]
+        [Display(Name = "Adopted By")]
         public Customer AdoptedBy { get; set; }
+
+        [Display(Name = "Adopted By")]
+        public string AdopteeName { get; set; }
 
         public int? LodgingID { get; set; }
         
         [ForeignKey("LodgingID")]
+        [Display(Name = "Lodging Location")]
         public Lodging LodgingLocation { get; set; }
 
         public List<InterestedAnimal> InterestedAdoptees { get; set; } = new List<InterestedAnimal>();

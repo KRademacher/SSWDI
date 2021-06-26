@@ -142,10 +142,12 @@ namespace Management.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Animal/{animalId:int}/Treatment/Delete/{id:int}")]
-        public IActionResult Delete(Treatment treatment)
+        public IActionResult Delete(Treatment treatment, int animalId)
         {
-            _animalService.DeleteTreatment(treatment);
-            return Redirect($"~/Animal/{treatment.AnimalID}/Treatment");
+            var animal = _animalService.GetByID(animalId);
+            var animalTreatment = animal.Treatments.FirstOrDefault(t => t.ID == treatment.ID);
+            _animalService.DeleteTreatment(animalTreatment);
+            return Redirect($"~/Animal/{animalTreatment.AnimalID}/Treatment");
         }
     }
 }
