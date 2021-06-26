@@ -52,7 +52,7 @@ namespace Management.Controllers
             }
             if (animal.AdoptedByID != null)
             {
-                animal.AdoptedBy = _userService.FindCustomerByID(animal.AdoptedByID.Value);
+                animal.AdoptedBy = _userService.GetCustomerByID(animal.AdoptedByID.Value);
             }
             return View(animal);
         }
@@ -217,7 +217,7 @@ namespace Management.Controllers
             }
             else if (string.IsNullOrWhiteSpace(viewModel.AdopteeName))
             {
-                var customer = _userService.FindCustomerByID(viewModel.Customer.ID);
+                var customer = _userService.GetCustomerByID(viewModel.Customer.ID);
                 animal.AdoptedByID = viewModel.Customer.ID;
                 animal.AdoptedBy = customer;
                     

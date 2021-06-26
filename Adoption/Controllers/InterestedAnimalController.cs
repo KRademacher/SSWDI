@@ -25,14 +25,14 @@ namespace Adoption.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var customer = _userService.FindCustomerByUserName(User.Identity.Name);
+            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
             return View(_interestedAnimalRepository.GetAll(customer.ID));
         }
 
         [Route("InterestedAnimal/Create/{animalId:int}")]
         public IActionResult Create(int animalId)
         {
-            var customer = _userService.FindCustomerByUserName(User.Identity.Name);
+            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
             var animal = _animalRepository.GetByID(animalId);
             if (_interestedAnimalRepository.Get(customer.ID, animal.ID) != null)
             {
@@ -57,7 +57,7 @@ namespace Adoption.Controllers
         [Route("InterestedAnimal/Delete/{animalId:int}")]
         public IActionResult Delete(int animalId)
         {
-            var customer = _userService.FindCustomerByUserName(User.Identity.Name);
+            var customer = _userService.GetCustomerByUserName(User.Identity.Name);
             var animal = _animalRepository.GetByID(animalId);
             try
             {

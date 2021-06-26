@@ -43,7 +43,7 @@ namespace WebService.Controllers
         [HttpDelete("{customerId:int}/{animalId:int}")]
         public IActionResult Delete(int customerId, int animalId)
         {
-            var customer = _userService.FindCustomerByID(customerId);
+            var customer = _userService.GetCustomerByID(customerId);
             var animal = _animalRepository.GetByID(animalId);
             _interestedAnimalRepository.Delete(animal, customer);
             return Ok();

@@ -6,10 +6,10 @@ namespace DomainServices.Repositories
     public interface IUserRepository : IGenericRepository<User>
     {
         IEnumerable<Customer> GetAllCustomers();
-        Customer FindCustomerByID(int id);
-        Customer FindCustomerByUserName(string username);
+        Customer GetCustomerByID(int id);
+        Customer GetCustomerByUserName(string username);
         IEnumerable<Volunteer> GetAllVolunteers();
-        Volunteer FindVolunteerByID(int id);
-        Volunteer FindVolunteerByUsername(string username);
+        Volunteer GetVolunteerByID(int id);
+        Volunteer GetVolunteerByUsername(string username);
     }
 }

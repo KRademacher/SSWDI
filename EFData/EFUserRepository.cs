@@ -11,22 +11,22 @@ namespace EFData
         {
         }
 
-        public Customer FindCustomerByID(int id)
+        public Customer GetCustomerByID(int id)
         {
             return _dbContext.Customers.FirstOrDefault(u => u.ID == id);
         }
 
-        public Customer FindCustomerByUserName(string username)
+        public Customer GetCustomerByUserName(string username)
         {
             return _dbContext.Customers.FirstOrDefault(u => u.EmailAddress == username);
         }
 
-        public Volunteer FindVolunteerByID(int id)
+        public Volunteer GetVolunteerByID(int id)
         {
             return _dbContext.Volunteers.FirstOrDefault(u => u.ID == id);
         }
 
-        public Volunteer FindVolunteerByUsername(string username)
+        public Volunteer GetVolunteerByUsername(string username)
         {
             return _dbContext.Volunteers.FirstOrDefault(u => u.EmailAddress == username);
         }

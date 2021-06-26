@@ -29,24 +29,24 @@ namespace Services
             return _userRepository.Create(user);
         }
 
-        public Customer FindCustomerByID(int id)
+        public Customer GetCustomerByID(int id)
         {
-            return _userRepository.FindCustomerByID(id);
+            return _userRepository.GetCustomerByID(id);
         }
 
-        public Customer FindCustomerByUserName(string username)
+        public Customer GetCustomerByUserName(string username)
         {
-            return _userRepository.FindCustomerByUserName(username);
+            return _userRepository.GetCustomerByUserName(username);
         }
 
-        public Volunteer FindVolunteerByID(int id)
+        public Volunteer GetVolunteerByID(int id)
         {
-            return _userRepository.FindVolunteerByID(id);
+            return _userRepository.GetVolunteerByID(id);
         }
 
-        public Volunteer FindVolunteerByUsername(string username)
+        public Volunteer GetVolunteerByUsername(string username)
         {
-            return _userRepository.FindVolunteerByUsername(username);
+            return _userRepository.GetVolunteerByUsername(username);
         }
 
         public IEnumerable<User> GetAll()
