@@ -84,6 +84,11 @@ namespace HttpData
             return interestedAnimal;
         }
 
+        public IEnumerable<InterestedAnimal> GetAll()
+        {
+            throw new InvalidOperationException("Operation not permitted.");
+        }
+
         public IEnumerable<Animal> GetAllOfCustomer(int customerId)
         {
             IEnumerable<Animal> animals;
