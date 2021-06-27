@@ -8,12 +8,14 @@ using Identity.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Services;
 using System;
+using System.Globalization;
 
 namespace Adoption
 {
@@ -76,6 +78,8 @@ namespace Adoption
                 cfg.CreateMap<Customer, ApplicationUser>();
                 cfg.CreateMap<Volunteer, ApplicationUser>();
             });
+
+            services.AddLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,6 +102,21 @@ namespace Adoption
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("nl-NL")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("nl-NL"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures,
+                FallBackToParentCultures = false,
+                FallBackToParentUICultures = false
+            });
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.CreateSpecificCulture("nl-NL");
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.CreateSpecificCulture("nl-NL");
 
             app.UseEndpoints(endpoints =>
             {

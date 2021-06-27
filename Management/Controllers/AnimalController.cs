@@ -80,7 +80,7 @@ namespace Management.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(animal.ImageFile.FileName))
+                if (animal.ImageFile != null && !string.IsNullOrEmpty(animal.ImageFile.FileName))
                 {
                     animal.ImageName = animal.ImageFile.FileName;
                 }
