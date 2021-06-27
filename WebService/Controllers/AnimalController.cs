@@ -1,5 +1,5 @@
 ﻿using Core.DomainModel;
-using DomainServices.Services;
+using DomainServices.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebService.Controllers
@@ -8,30 +8,30 @@ namespace WebService.Controllers
     [Route("/api/animal")]
     public class AnimalController : Controller
     {
-        private readonly IAnimalService _animalService;
+        private readonly IAnimalRepository _animalRepository;
 
-        public AnimalController(IAnimalService animalService)
+        public AnimalController(IAnimalRepository animalRepository)
         {
-            _animalService = animalService;
+            _animalRepository = animalRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_animalService.GetAllAvailableAnimals());
+            return Ok(_animalRepository.GetAllAvailableAnimals());
         }
 
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
-            Animal animal = _animalService.GetByID(id);
+            Animal animal = _animalRepository.GetByID(id);
             return Ok(animal);
         }
 
         [HttpPost]
         public IActionResult Create([FromBody] Animal animal)
         {
-            _animalService.Create(animal);
+            _animalRepository.Create(animal);
             return Ok(animal);
         }
 
@@ -39,7 +39,7 @@ namespace WebService.Controllers
         public IActionResult Update(int id, [FromBody] Animal animal)
         {
             animal.ID = id;
-            _animalService.Update(animal);
+            _animalRepository.Update(animal);
             return Ok(animal);
         }
     }

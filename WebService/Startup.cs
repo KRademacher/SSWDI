@@ -49,13 +49,9 @@ namespace WebService
 
             // Repositories Dependency Injections
             services.AddTransient<IAnimalRepository, EFAnimalRepository>();
-            services.AddTransient<ILodgingRepository, EFLodgingRepository>();
             services.AddTransient<IInterestedAnimalRepository, EFInterestedAnimalRepository>();
+            services.AddTransient<ILodgingRepository, EFLodgingRepository>();
             services.AddTransient<IUserRepository, EFUserRepository>();
-
-            // Services Dependency Injections
-            services.AddTransient<IAnimalService, AnimalService>();
-            services.AddTransient<ILodgingService, LodgingService>();
 
             services.AddLocalization();
         }

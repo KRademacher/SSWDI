@@ -1,17 +1,14 @@
 ﻿using Core.DomainModel;
 using DomainServices.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace EFData
 {
     public class EFInterestedAnimalRepository : EFGenericRepository<InterestedAnimal>, IInterestedAnimalRepository
     {
-        public EFInterestedAnimalRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
+        public EFInterestedAnimalRepository(ApplicationDbContext dbContext)
+            : base(dbContext) { }
 
         public InterestedAnimal Create(Animal animal, Customer customer)
         {

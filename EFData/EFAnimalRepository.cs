@@ -7,9 +7,8 @@ namespace EFData
 {
     public class EFAnimalRepository : EFGenericRepository<Animal>, IAnimalRepository
     {
-        public EFAnimalRepository(ApplicationDbContext dbContext) : base(dbContext)
-        {
-        }
+        public EFAnimalRepository(ApplicationDbContext dbContext)
+            : base(dbContext) { }
 
         public void Delete(Animal animal)
         {

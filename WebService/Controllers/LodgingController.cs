@@ -1,5 +1,5 @@
 ﻿using Core.DomainModel;
-using DomainServices.Services;
+using DomainServices.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -9,22 +9,22 @@ namespace WebService.Controllers
     [Route("/api/lodging")]
     public class LodgingController : Controller
     {
-        private readonly IAnimalService _animalService;
-        private readonly ILodgingService _lodgingService;
+        private readonly IAnimalRepository _animalRepository;
+        private readonly ILodgingRepository _lodgingRepository;
 
-        public LodgingController(IAnimalService animalService, ILodgingService lodgingService)
+        public LodgingController(IAnimalRepository animalRepository, ILodgingRepository lodgingRepository)
         {
-            _animalService = animalService;
-            _lodgingService = lodgingService;
+            _animalRepository = animalRepository;
+            _lodgingRepository = lodgingRepository;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var lodgings = _lodgingService.GetAll();
+            var lodgings = _lodgingRepository.GetAll();
             foreach (var lodging in lodgings)
             {
-                var lodgingAnimals = _animalService.GetAll().Where(a => a.LodgingID == lodging.ID);
+                var lodgingAnimals = _animalRepository.GetAll().Where(a => a.LodgingID == lodging.ID);
                 lodging.LodgingAnimals.AddRange(lodgingAnimals);
             }
             return Ok(lodgings);
@@ -33,8 +33,8 @@ namespace WebService.Controllers
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
-            Lodging lodging = _lodgingService.GetByID(id);
-            var lodgingAnimals = _animalService.GetAll().Where(a => a.LodgingID == id);
+            Lodging lodging = _lodgingRepository.GetByID(id);
+            var lodgingAnimals = _animalRepository.GetAll().Where(a => a.LodgingID == id);
             lodging.LodgingAnimals.AddRange(lodgingAnimals);
             return Ok(lodging);
         }
@@ -42,8 +42,8 @@ namespace WebService.Controllers
         [HttpPut("{id:int}")]
         public IActionResult Update(int id)
         {
-            Lodging lodging = _lodgingService.GetByID(id);
-            _lodgingService.Update(lodging);
+            Lodging lodging = _lodgingRepository.GetByID(id);
+            _lodgingRepository.Update(lodging);
             return Ok(lodging);
         }
     }

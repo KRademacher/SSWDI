@@ -63,8 +63,8 @@ namespace Adoption
 
             // Dependency Injection; Repo's
             services.AddTransient<IAnimalRepository, HttpAnimalRepository>();
-            services.AddTransient<ILodgingRepository, HttpLodgingRepository>();
             services.AddTransient<IInterestedAnimalRepository, HttpInterestedAnimalRepository>();
+            services.AddTransient<ILodgingRepository, HttpLodgingRepository>();
             services.AddTransient<IUserRepository, HttpUserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
 
