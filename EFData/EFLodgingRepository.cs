@@ -7,8 +7,9 @@ namespace EFData
 {
     public class EFLodgingRepository : EFGenericRepository<Lodging>, ILodgingRepository
     {
-        public EFLodgingRepository(ApplicationDbContext dbContext)
-            : base(dbContext) { }
+        public EFLodgingRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
 
         public void Delete(Lodging lodging)
         {

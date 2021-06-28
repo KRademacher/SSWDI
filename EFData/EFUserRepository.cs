@@ -7,8 +7,9 @@ namespace EFData
 {
     public class EFUserRepository : EFGenericRepository<User>, IUserRepository
     {
-        public EFUserRepository(ApplicationDbContext dbContext)
-            : base(dbContext) { }
+        public EFUserRepository(ApplicationDbContext dbContext) : base(dbContext)
+        {
+        }
 
         public Customer GetCustomerByID(int id)
         {

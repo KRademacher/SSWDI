@@ -7,7 +7,7 @@ namespace WebService.Controllers
     [ApiController]
     public class AccountController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private IUserRepository _userRepository;
 
         public AccountController(IUserRepository userRepository)
         {
